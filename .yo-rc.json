@@ -1,0 +1,22 @@
+{
+  "generator-angular-meteor": {
+    "filters": {
+      "js": true,
+      "html": true,
+      "css": true,
+      "pagination": false,
+      "framework": "ionic",
+      "bower": false,
+      "auth": true,
+      "oauth": true,
+      "googleAuth": true,
+      "facebookAuth": true,
+      "twitterAuth": true,
+      "appname": "spoutCastApp",
+      "projectname": "spoutCast",
+      "modules": "'angular-meteor',\n  'ionic',\n  'accounts.ui'",
+      "usedBower": true
+    },
+    "appname": "spoutCast"
+  }
+}
