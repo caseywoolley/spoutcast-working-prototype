@@ -17,14 +17,6 @@
       access our own scope. This only applies for variables inside an
       ion-content directive. Outside ion-content you can call 'spouts' directly
     -->
-    <form ng-submit="$parent.save()" name="$parent.form" novalidate="">
-      <div class="list">
-        <label class="item item-input">
-          <input type="text" placeholder="Name" ng-model="$parent.newSpout.name" />
-        </label>
-      </div>
-      <button class="button button-block button-positive" type="submit">Add</button>
-    </form>
     <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
     <ion-item ng-repeat="spout in $parent.spouts" class="item-thumbnail-left">
       <img ng-src="{{spout.img}}">
