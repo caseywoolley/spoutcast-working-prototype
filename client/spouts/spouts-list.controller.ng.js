@@ -1,9 +1,12 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('SpoutsListCtrl', function($scope, $ionicScrollDelegate) {
+.controller('SpoutsListCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate) {
 
-    
+  $scope.shouldShowDelete = false;
+  $scope.shouldShowReorder = false;
+  $scope.listCanSwipe = true;
+
   $scope.helpers({
     spouts: function() {
       return Spouts.find({});

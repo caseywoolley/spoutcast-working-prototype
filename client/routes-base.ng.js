@@ -4,7 +4,7 @@ angular.module('spoutCastApp')
 
 .config(function($urlRouterProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/spouts');
 }).run(['$rootScope', '$state', function($rootScope, $state) {
   $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
     switch(error) {

@@ -1,4 +1,15 @@
 <ion-pane>
+
+  <!-- <div class="list">
+      <div class="item item-button-right" ng-repeat="spout in $parent.spouts">
+        <a href="/spouts/{{spout._id}}">{{ spout.name }}</a>
+        <button class="button button-assertive" ng-click="$parent.remove(spout)">
+          <i class="icon ion-trash-a"></i>
+        </button>
+      </div>
+    </div> -->
+
+
   <ion-content class="padding spouts-list">
     <h1>Spouts</h1>
     <!--
@@ -14,14 +25,20 @@
       </div>
       <button class="button button-block button-positive" type="submit">Add</button>
     </form>
-    <div class="list">
-      <div class="item item-button-right" ng-repeat="spout in $parent.spouts">
-        <a href="/spouts/{{spout._id}}">{{ spout.name }}</a>
-        <button class="button button-assertive" ng-click="$parent.remove(spout)">
-          <i class="icon ion-trash-a"></i>
-        </button>
-      </div>
-    </div>
+    <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
+    <ion-item ng-repeat="spout in $parent.spouts" class="item-thumbnail-left">
+      <img ng-src="{{spout.img}}">
+      <h2>{{spout.name}}</h2>
+      <p>{{spout.description}}</p>
+      <ion-option-button class="button-assertive icon ion-trash-a"></ion-option-button>
+      <ion-option-button class="button-positive" ng-click="share(spout)">Share</ion-option-button>
+      <ion-option-button class="button-info" ng-click="edit(spout)">Edit</ion-option-button>
+      <ion-delete-button class="ion-minus-circled" ng-click="$parent.remove(spout)"></ion-delete-button>
+      <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(spout, $fromIndex, $toIndex)">
+      </ion-reorder-button>
+    </ion-item>
+  </ion-list>
+    
     <p>Total number of spouts: {{ $parent.spouts.length }}</p>
   </ion-content>
 </ion-pane>
