@@ -7,6 +7,12 @@ angular.module('spoutCastApp')
   $scope.shouldShowReorder = false;
   $scope.listCanSwipe = true;
 
+  $scope.recordSpout = function(){
+    MeteorCamera.getPicture(function(data){
+      console.log('done');
+    });
+  };
+
   $scope.helpers({
     spouts: function() {
       return Spouts.find({});
