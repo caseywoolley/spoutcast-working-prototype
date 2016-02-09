@@ -2,12 +2,12 @@ Spouts = new Mongo.Collection('spouts');
 
 Spouts.allow({
   insert: function(userId, spout) {
-    return true;
+    return !!userId;
   },
   update: function(userId, spout, fields, modifier) {
-    return true;
+    return userId === spout.owner;
   },
   remove: function(userId, spout) {
-    return true;
+    return userId === spout.owner;
   }
 });

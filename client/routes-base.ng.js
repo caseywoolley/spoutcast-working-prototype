@@ -11,7 +11,7 @@ angular.module('spoutCastApp')
       case 'AUTH_REQUIRED':
       case 'FORBIDDEN':
       case 'UNAUTHORIZED':
-        $state.go('main');
+        $state.go('spouts-list');
         break;
     }
   });

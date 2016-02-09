@@ -22,7 +22,7 @@
       <img ng-src="{{spout.img}}">
       <h2>{{spout.name}}</h2>
       <p>{{spout.description}}</p>
-      <ion-option-button class="button-assertive icon ion-trash-a"></ion-option-button>
+      <ion-option-button class="button-assertive icon ion-trash-a" ng-click="remove(spout)"></ion-option-button>
       <ion-option-button class="button-positive" ng-click="share(spout)">Share</ion-option-button>
       <ion-option-button class="button-info" ng-click="edit(spout)">Edit</ion-option-button>
       <ion-delete-button class="ion-minus-circled" ng-click="$parent.remove(spout)"></ion-delete-button>

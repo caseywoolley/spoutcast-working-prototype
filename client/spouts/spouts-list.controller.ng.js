@@ -3,6 +3,8 @@
 angular.module('spoutCastApp')
 .controller('SpoutsListCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate) {
 
+  var user = Meteor.user();
+
   $scope.shouldShowDelete = false;
   $scope.shouldShowReorder = false;
   $scope.listCanSwipe = true;
@@ -18,7 +20,7 @@ angular.module('spoutCastApp')
   });
 
   $scope.save = function() {
-    if ($scope.form.$valid) {
+    if ($scope.form.$valid && Meteor.userId()) {
       Spouts.insert($scope.newSpout);
       $scope.newSpout = undefined;
       $ionicScrollDelegate.resize();
@@ -26,7 +28,11 @@ angular.module('spoutCastApp')
   };
                   
   $scope.remove = function(spout) {
-    Spouts.remove({_id:spout.id});
-    $ionicScrollDelegate.resize();
+    if (Meteor.userId() && spout.owner === Meteor.userId()._id){
+      Spouts.remove({_id:spout.id}).then(function(){console.log('promise');});
+      $ionicScrollDelegate.resize();
+    } else {
+      console.log('nope')
+    }
   };
 });
