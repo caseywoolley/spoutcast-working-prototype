@@ -12,13 +12,25 @@
 
   <ion-content class="padding spouts-list">
     <h1>Spouts</h1>
-    <!--
-      Due to ion-content creating a child scope, we have to use $parent to
-      access our own scope. This only applies for variables inside an
-      ion-content directive. Outside ion-content you can call 'spouts' directly
-    -->
+    
     <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
-    <ion-item ng-repeat="spout in $parent.spouts" class="item-thumbnail-left">
+    <ion-card ng-repeat="spout in $parent.spouts">
+      <div class="item">
+      <video id="video1" style="width:600px;max-width:100%;" controls="">
+          <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+        </div>
+      <ion-card-content>
+        <h2 class="card-title">
+          {{spout.name}}
+        </h2>
+        <p>
+          {{spout.description}}
+        </p>
+      </ion-card-content>
+    </ion-card>
+    <!-- <ion-item ng-repeat="spout in $parent.spouts" class="item-thumbnail-left">
       <img ng-src="{{spout.img}}">
       <h2>{{spout.name}}</h2>
       <p>{{spout.description}}</p>
@@ -28,7 +40,7 @@
       <ion-delete-button class="ion-minus-circled" ng-click="$parent.remove(spout)"></ion-delete-button>
       <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(spout, $fromIndex, $toIndex)">
       </ion-reorder-button>
-    </ion-item>
+    </ion-item> -->
   </ion-list>
     
     <p>Total number of spouts: {{ $parent.spouts.length }}</p>
