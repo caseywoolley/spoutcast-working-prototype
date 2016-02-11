@@ -8,28 +8,30 @@ angular.module('spoutCastApp')
   $scope.listCanSwipe = true;
 
   $scope.recordSpout = function(){
-    // MeteorCamera.getPicture(function(data){
-    //   console.log('done');
-    // });
-    // capture callback
-    console.log('record')
-    var captureSuccess = function(mediaFiles) {
-        var i, path, len;
-        for (i = 0, len = mediaFiles.length; i < len; i += 1) {
-            path = mediaFiles[i].fullPath;
-            // do something interesting with the file
-            console.log(path);
-        }
-    };
+    if (Meteor.isCordova){
+      console.log("device capability: " + JSON.stringify(navigator.device.capture));
+      navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:1, duration: 13});
+    } else {
+      console.log('using a browser')
+      MeteorCamera.getPicture({}, function(data){
+        console.log(data)
+      });
+      // do the standard mdg:camera thing here ??
+      // because we're in a browser.....
+    }
 
-    // capture error callback
     var captureError = function(error) {
-        $window.navigator.notification.alert('Error code: ' + error.code, null, 'Capture Error');
-    };
+      navigator.notification.alert('ERROR:' + error.message, null, "Capture Error");
+    }
 
-    // start video capture
-    //navigator.device.capture.captureVideo(captureSuccess, captureError, {limit:2});
-    console.log(navigator.device)
+    var captureSuccess = function(mediaFiles) {
+      var i, path, len;
+      for (i=0, len = mediaFiles.length; i < len; i += 1) {
+        path = mediaFiles[i].fullPath;
+        // do something with this file... upload to S3 ?
+        console.log("path = " + path);
+      }
+    };
   };
 
   $scope.helpers({
