@@ -1,0 +1,9 @@
+{
+  "name": "spoutcast",
+  "version": "0.1.0",
+  "description": "The Yelp of Video Reviews",
+  "scripts": {
+    "start": "meteor run ios-device --settings settings.json",
+    "deploy": "meteor deploy spoutcast.meteor.com --settings settings.json"
+  }
+}
