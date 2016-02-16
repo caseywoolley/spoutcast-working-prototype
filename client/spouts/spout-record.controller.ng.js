@@ -63,7 +63,7 @@ angular.module('spoutCastApp')
               console.log(downloadUrl)
 
                 var v = "<video controls='controls'>";
-                v += "<source src='" + url + "' type='video/mov'>";
+                v += "<source src='" + downloadUrl + "' type='video/mov'>";
                 v += "</video>";
                 document.querySelector(".video-area").innerHTML = v;
 
