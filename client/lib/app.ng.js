@@ -2,9 +2,15 @@ angular.module('spoutCastApp', [
   'angular-meteor',
   'ionic',
   'accounts.ui',
-  'ngSanitize',
-	'com.2fdevs.videogular'
-]);
+  'ngSanitize'
+])
+
+.config(function($sceDelegateProvider) {
+ 	$sceDelegateProvider.resourceUrlWhitelist([
+   'self',
+   'https://spoutcast-contentdelivery-mobilehub-1722871942.s3.amazonaws.com/**'
+  ]);
+ });
 
 onReady = function() {
   angular.bootstrap(document, ['spoutCastApp']);

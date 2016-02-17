@@ -1,20 +1,25 @@
 <ion-pane>
+
+  <ion-item ng-if="!newSpout.video && !uploading" class="item-borderless">
+    <button class="button button-block button-assertive" ng-click="recordSpout()">Record A Review</button>
+  </ion-item>
+
   <ion-content class="padding spout-detail">
-    <div><button ng-if="!newSpout.video && !uploading" class="button button-block button-positive" ng-click="recordSpout()">Record A Review</button></div>
-    
-    <form ng-submit="$parent.save()" name="$parent.form" novalidate="">
-      <div class="list">
-        <label ng-if="newSpout.video || uploading" class="item item-input">
-          <input type="text" placeholder="Title" ng-model="newSpout.title" />
-        </label>
-      </div>
-      <button ng-if="newSpout.video && !uploading" class="button button-block button-positive" type="submit">Submit</button>
-    </form>
-    
-    <div ng-if="uploading" class="spinner">
-      <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
-    </div>
-    <pre>{{newSpout}}</pre>
-    <pre>{{uploading}}</pre>
+    <ion-list>
+
+      <ion-item ng-if="newSpout.video || uploading" class="item-borderless">
+        <input type="text" placeholder="Title" ng-model="newSpout.title" />
+      </ion-item>
+
+      <ion-item ng-show="newSpout.video" class="item-remove-animate item-add-animate item-borderless">
+        <div class="video-preview"></div>
+        <button class="button button-block button-calm" ng-click="save()">Submit</button>
+      </ion-item>
+
+      <ion-item ng-if="uploading" class="spinner item-borderless">
+        <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
+      </ion-item>
+
+    </ion-list>
   </ion-content>
 </ion-pane>

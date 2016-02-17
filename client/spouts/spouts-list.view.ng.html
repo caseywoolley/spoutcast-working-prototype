@@ -1,59 +1,17 @@
 <ion-pane>
-  <!-- <div class="list">
-      <div class="item item-button-right" ng-repeat="spout in $parent.spouts">
-        <a href="/spouts/{{spout._id}}">{{ spout.name }}</a>
-        <button class="button button-assertive" ng-click="$parent.remove(spout)">
-          <i class="icon ion-trash-a"></i>
-        </button>
-      </div>
-    </div> -->
-  <ion-content class="padding spouts-list">
-    <h1>Spouts</h1>
-    <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
-      <ion-card ng-repeat="spout in $parent.spouts">
-        <div class="item">
+  <ion-content class="spouts-list">
+    <ion-list>
+      <ion-item collection-repeat="spout in $parent.spouts" item-height="350px" class="item-remove-animate row-no-padding">
+        
+        <video ng-src="{{ spout.video }}" type="video/quicktime" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>
+          Your browser does not support HTML5 video.
+        </video>
 
-          <!-- <div videogular vg-width="600" vg-height="300" vg-theme="themes/default/default.css">
-            <video class='videoPlayer' controls preload='none' vg-poster='assets/images/oceans-clip.png'>
-              <source src="{{ sce.trustAsResourceUrl(spout.video) }}" type='video/quicktime'>
-            </video>
-          </div> -->
-
-          <video ng-src="{{ spout.video | trustUrl }}" type="video/quicktime" style="width:600px;max-width:100%;" controls="">
-            <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-          </video>
-          <!--  <video html5-video="{{ spout.video }}"
-            autoplay='true' controls='true'>
-          </video> -->
-          <!-- <video class="spout-video" ng-src="{{spout.video}}" style="width:600px;max-width:100%;" controls="">
-            <source ng-src="{{spout.video}}" type="video/quicktime">
-            <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video> -->
+        <div class="spout-details padding">
+          {{ spout.title || spout.name }}
         </div>
-        <ion-card-content>
-          <h2 class="card-title">
-            {{ spout.title || spout.name }}
-          </h2>
-          <p>
-            <button class="button button-assertive" ng-click="$parent.remove(spout)">
-              <i class="icon ion-trash-a"></i>
-            </button>
-            <pre>{{spout}}</pre>
-          </p>
-        </ion-card-content>
-      </ion-card>
-      <!-- <ion-item ng-repeat="spout in $parent.spouts" class="item-thumbnail-left">
-      <img ng-src="{{spout.img}}">
-      <h2>{{spout.name}}</h2>
-      <p>{{spout.description}}</p>
-      <ion-option-button class="button-assertive icon ion-trash-a" ng-click="remove(spout)"></ion-option-button>
-      <ion-option-button class="button-positive" ng-click="share(spout)">Share</ion-option-button>
-      <ion-option-button class="button-info" ng-click="edit(spout)">Edit</ion-option-button>
-      <ion-delete-button class="ion-minus-circled" ng-click="$parent.remove(spout)"></ion-delete-button>
-      <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(spout, $fromIndex, $toIndex)">
-      </ion-reorder-button>
-    </ion-item> -->
+
+      </ion-item>
     </ion-list>
     <p>Total number of spouts: {{ $parent.spouts.length }}</p>
   </ion-content>

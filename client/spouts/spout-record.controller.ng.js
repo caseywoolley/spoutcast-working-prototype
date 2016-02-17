@@ -3,13 +3,9 @@
 angular.module('spoutCastApp')
   .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window) {
 
-    $scope.shouldShowDelete = false;
-    $scope.shouldShowReorder = false;
-    $scope.listCanSwipe = true;
     $scope.newSpout = {};
     $scope.uploading = false;
-
-    var uploader = new Slingshot.Upload("uploadToAmazonS3");
+    $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");
 
     var getBlobURL = function(url, mime, callback) {
       var xhr = new XMLHttpRequest();
@@ -40,23 +36,23 @@ angular.module('spoutCastApp')
       var path = '/local-filesystem' + mediaFiles[0].fullPath;
 
       getBlobURL(path, mediaFiles[0].type, function(url, blob) {
-        uploader.send(blob, function(error, downloadUrl) {
-          $scope.$apply(function(){
-            $scope.uploading = false;
-          });
+        $scope.uploader.send(blob, function(error, downloadUrl) {
+          
           if (error) {
-            console.error('Error uploading', uploader.xhr.response);
+            console.error('Error uploading', $scope.uploader.xhr.response);
             //TODO: add error popup
           } else {
             console.log(downloadUrl)
-            $scope.$apply(function(){
-              $scope.newSpout.video = downloadUrl;
-            });
-            // var v = "<video controls='controls'>";
-            // v += "<source src='" + downloadUrl + "' type='video/quicktime'>";
-            // v += "</video>";
-            // document.querySelector(".video-area").innerHTML = v;
+            $scope.newSpout.video = downloadUrl;
+
+            var v = "<video style='height:300px;width:100%' poster='http://placehold.it/480x360' controls>";
+            v += "<source src='" + downloadUrl + "' type='video/quicktime'>";
+            v += "</video>";
+            document.querySelector(".video-preview").innerHTML = v;
           }
+          $scope.$apply(function(){
+            $scope.uploading = false;
+          });
         });
       });
 
@@ -92,11 +88,11 @@ angular.module('spoutCastApp')
     });
 
     $scope.save = function() {
-      if ($scope.form.$valid && Meteor.user()) {
+      if (Meteor.user()) {
         $scope.newSpout.owner = Meteor.user()._id;
         Spouts.insert($scope.newSpout);
         $scope.newSpout = {};
-        $ionicScrollDelegate.resize();
+        //$ionicScrollDelegate.resize();
       }
     };
 

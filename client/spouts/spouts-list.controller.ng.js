@@ -6,10 +6,6 @@ angular.module('spoutCastApp')
   $scope.sce = $sce;
   var user = Meteor.user();
 
-  $scope.shouldShowDelete = false;
-  $scope.shouldShowReorder = false;
-  $scope.listCanSwipe = true;
-
   $scope.helpers({
     spouts: function() {
       return Spouts.find({});
@@ -36,12 +32,5 @@ angular.module('spoutCastApp')
       //console.log('nope')
     //}
   };
-})
 
-
-
-.filter('trustUrl', function ($sce) {
-  return function(url) {
-    return $sce.trustAsResourceUrl(url);
-  };
 });
