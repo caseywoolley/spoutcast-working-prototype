@@ -1,33 +1,20 @@
 <ion-pane>
   <ion-content class="padding spout-detail">
+    <div><button ng-if="!newSpout.video && !uploading" class="button button-block button-positive" ng-click="recordSpout()">Record A Review</button></div>
+    
     <form ng-submit="$parent.save()" name="$parent.form" novalidate="">
       <div class="list">
-        <label class="item item-input">
-          <input type="text" placeholder="Name" ng-model="$parent.newSpout.name" />
+        <label ng-if="newSpout.video || uploading" class="item item-input">
+          <input type="text" placeholder="Title" ng-model="newSpout.title" />
         </label>
       </div>
-      <button class="button button-block button-positive" type="submit">Add</button>
+      <button ng-if="newSpout.video && !uploading" class="button button-block button-positive" type="submit">Submit</button>
     </form>
-
-    <button class="button button-block button-positive" ng-click="recordSpout()">Record</button>
-
-    <ion-card>
-      <div class="item">
-        <video id="video1" style="width:600px;max-width:100%;" controls="">
-          <source id="my-preview" ng-src="awsUrl" type="video/mp4">
-          Your browser does not support HTML5 video.
-        </video>
-        <div class="video-area"></div>
-      </div>
-      <ion-card-content>
-        <h2 class="card-title">
-          Video
-        </h2>
-        <p>
-          {{spout.description}}
-        </p>
-      </ion-card-content>
-    </ion-card>
-
+    
+    <div ng-if="uploading" class="spinner">
+      <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
+    </div>
+    <pre>{{newSpout}}</pre>
+    <pre>{{uploading}}</pre>
   </ion-content>
 </ion-pane>

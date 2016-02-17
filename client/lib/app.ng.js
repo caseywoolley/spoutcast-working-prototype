@@ -1,7 +1,9 @@
 angular.module('spoutCastApp', [
   'angular-meteor',
   'ionic',
-  'accounts.ui'
+  'accounts.ui',
+  'ngSanitize',
+	'com.2fdevs.videogular'
 ]);
 
 onReady = function() {

@@ -1,8 +1,9 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('SpoutsListCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate) {
+.controller('SpoutsListCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $sce) {
 
+  $scope.sce = $sce;
   var user = Meteor.user();
 
   $scope.shouldShowDelete = false;
@@ -28,11 +29,19 @@ angular.module('spoutCastApp')
   };
                   
   $scope.remove = function(spout) {
-    if (Meteor.userId() && spout.owner === Meteor.userId()._id){
-      Spouts.remove({_id:spout.id}).then(function(){console.log('promise');});
+   // if (Meteor.userId() && spout.owner === Meteor.userId()._id){
+      Spouts.remove({_id:spout._id});
       $ionicScrollDelegate.resize();
-    } else {
-      console.log('nope')
-    }
+   // } else {
+      //console.log('nope')
+    //}
+  };
+})
+
+
+
+.filter('trustUrl', function ($sce) {
+  return function(url) {
+    return $sce.trustAsResourceUrl(url);
   };
 });

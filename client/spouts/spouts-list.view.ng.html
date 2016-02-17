@@ -1,5 +1,4 @@
 <ion-pane>
-
   <!-- <div class="list">
       <div class="item item-button-right" ng-repeat="spout in $parent.spouts">
         <a href="/spouts/{{spout._id}}">{{ spout.name }}</a>
@@ -8,31 +7,43 @@
         </button>
       </div>
     </div> -->
-
-
   <ion-content class="padding spouts-list">
     <h1>Spouts</h1>
-    
     <ion-list show-delete="shouldShowDelete" show-reorder="shouldShowReorder" can-swipe="listCanSwipe">
-    <ion-card ng-repeat="spout in $parent.spouts">
-      <div class="item">
-      <video id="video1" style="width:600px;max-width:100%;" controls="">
-          <!-- <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4"> -->
-          <source src="https://s3.amazonaws.com/spoutcast-contentdelivery-mobilehub-1722871942/4H60x.mov" type="video/quicktime">
-          
-          Your browser does not support HTML5 video.
-        </video>
+      <ion-card ng-repeat="spout in $parent.spouts">
+        <div class="item">
+
+          <!-- <div videogular vg-width="600" vg-height="300" vg-theme="themes/default/default.css">
+            <video class='videoPlayer' controls preload='none' vg-poster='assets/images/oceans-clip.png'>
+              <source src="{{ sce.trustAsResourceUrl(spout.video) }}" type='video/quicktime'>
+            </video>
+          </div> -->
+
+          <video ng-src="{{ spout.video | trustUrl }}" type="video/quicktime" style="width:600px;max-width:100%;" controls="">
+            <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+          </video>
+          <!--  <video html5-video="{{ spout.video }}"
+            autoplay='true' controls='true'>
+          </video> -->
+          <!-- <video class="spout-video" ng-src="{{spout.video}}" style="width:600px;max-width:100%;" controls="">
+            <source ng-src="{{spout.video}}" type="video/quicktime">
+            <source src="http://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video> -->
         </div>
-      <ion-card-content>
-        <h2 class="card-title">
-          {{spout.name}}
-        </h2>
-        <p>
-          {{spout.description}}
-        </p>
-      </ion-card-content>
-    </ion-card>
-    <!-- <ion-item ng-repeat="spout in $parent.spouts" class="item-thumbnail-left">
+        <ion-card-content>
+          <h2 class="card-title">
+            {{ spout.title || spout.name }}
+          </h2>
+          <p>
+            <button class="button button-assertive" ng-click="$parent.remove(spout)">
+              <i class="icon ion-trash-a"></i>
+            </button>
+            <pre>{{spout}}</pre>
+          </p>
+        </ion-card-content>
+      </ion-card>
+      <!-- <ion-item ng-repeat="spout in $parent.spouts" class="item-thumbnail-left">
       <img ng-src="{{spout.img}}">
       <h2>{{spout.name}}</h2>
       <p>{{spout.description}}</p>
@@ -43,8 +54,7 @@
       <ion-reorder-button class="ion-navicon" on-reorder="reorderItem(spout, $fromIndex, $toIndex)">
       </ion-reorder-button>
     </ion-item> -->
-  </ion-list>
-    
+    </ion-list>
     <p>Total number of spouts: {{ $parent.spouts.length }}</p>
   </ion-content>
 </ion-pane>

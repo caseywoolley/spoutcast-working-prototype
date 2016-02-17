@@ -8,6 +8,7 @@ Spouts.allow({
     return userId === spout.owner;
   },
   remove: function(userId, spout) {
+  	return true;
     return userId === spout.owner;
   }
 });
