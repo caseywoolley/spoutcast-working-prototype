@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('spoutCastApp')
-.controller('AboutCtrl', function($scope) {
+.controller('MapCtrl', function($scope) {
 
-  $scope.viewName = 'About';
+  $scope.viewName = 'Map';
 	// $reactive(this).attach($scope);
 
 	//this.location = Geolocation.latLng();
