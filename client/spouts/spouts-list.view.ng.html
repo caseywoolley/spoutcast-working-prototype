@@ -1,14 +1,16 @@
 <ion-pane>
   <ion-content class="spouts-list">
     <ion-list>
-      <ion-item collection-repeat="spout in $parent.spouts" item-height="350px" class="item-remove-animate row-no-padding">
+      <ion-item collection-repeat="spout in $parent.spouts" item-height="450px" class="item-remove-animate row-no-padding">
         
-        <video ng-src="{{ spout.video }}" type="video/quicktime" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>
+        <video ng-src="{{ awsBucket + spout.owner + '/' + spout.video }}" type="video/quicktime" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>
           Your browser does not support HTML5 video.
         </video>
-
+        
         <div class="spout-details padding">
+          <button ng-click="remove(spout)">Delete</button>
           {{ spout.title || spout.name }}
+          <pre>{{spout}}</pre>
         </div>
 
       </ion-item>

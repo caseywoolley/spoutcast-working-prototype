@@ -3,9 +3,20 @@
 angular.module('spoutCastApp')
   .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window) {
 
-    $scope.newSpout = {};
+    $scope.newSpout = {location:{}};
     $scope.uploading = false;
+    $scope.uploaded = false;
     $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");
+    $scope.awsBucket = 'https://spoutcast-contentdelivery-mobilehub-1722871942.s3.amazonaws.com/';
+
+    $scope.helpers({
+      currentLocation: function() { 
+        // $scope.newSpout.location = Geolocation.latLng();
+        return Geolocation.latLng();
+      }
+    });
+
+    //$scope.newSpout.location = $scope.currentLocation; 
 
     var getBlobURL = function(url, mime, callback) {
       var xhr = new XMLHttpRequest();
@@ -43,14 +54,15 @@ angular.module('spoutCastApp')
             //TODO: add error popup
           } else {
             console.log(downloadUrl)
-            $scope.newSpout.video = downloadUrl;
+            $scope.newSpout.video = downloadUrl.split("/").pop();
 
-            var v = "<video style='height:300px;width:100%' poster='http://placehold.it/480x360' controls>";
-            v += "<source src='" + downloadUrl + "' type='video/quicktime'>";
-            v += "</video>";
+            var v = '<video style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>';
+            v += '<source src="' + $scope.awsBucket + Meteor.user()._id + '/' + $scope.newSpout.video + '" type="video/quicktime">';
+            v += '</video>';
             document.querySelector(".video-preview").innerHTML = v;
           }
           $scope.$apply(function(){
+            $scope.uploaded = true;
             $scope.uploading = false;
           });
         });
@@ -59,21 +71,26 @@ angular.module('spoutCastApp')
     };
 
     $scope.recordSpout = function() {
-      // $scope.uploading = true;
+      if (Meteor.user()) {
+        // $scope.uploading = true;
+        // $scope.save(function(err, data){
+        //   $scope.spoutId = data;
+        //   console.log('saved', data);
+        // });
 
-
-      if (Meteor.isCordova) {
-        console.log('using mobile device');
-        navigator.device.capture.captureVideo(captureSuccess, captureError, {
-          limit: 1,
-          quality: 1,
-          duration: 15
-        });
-      } else {
-        console.log('using a browser');
-        MeteorCamera.getPicture({}, function(data) {
-          console.log(data)
-        });
+        if (Meteor.isCordova) {
+          console.log('using mobile device');
+          navigator.device.capture.captureVideo(captureSuccess, captureError, {
+            limit: 1,
+            quality: 1,
+            duration: 15
+          });
+        } else {
+          console.log('using a browser');
+          MeteorCamera.getPicture({}, function(data) {
+            console.log(data)
+          });
+        }
       }
     };
 
@@ -88,13 +105,25 @@ angular.module('spoutCastApp')
     });
 
     $scope.save = function() {
+      console.log('save')
+      //callback = callback || function(){return;};
       if (Meteor.user()) {
+        $scope.newSpout.location = {};
+        $scope.newSpout.location.latitude = $scope.currentLocation.lat;
+        $scope.newSpout.location.longitude = $scope.currentLocation.lng;
         $scope.newSpout.owner = Meteor.user()._id;
+        // $scope.newSpout.active = true;
         Spouts.insert($scope.newSpout);
         $scope.newSpout = {};
-        //$ionicScrollDelegate.resize();
+        $scope.uploaded = false;
       }
     };
+
+    // $scope.update = function(id, spout) {
+    //   if (spout.owner === Meteor.userId()._id) {
+    //     Spouts.update(id, {$set: spout});
+    //   }
+    // };
 
     $scope.remove = function(spout) {
       if (spout.owner === Meteor.userId()._id) {

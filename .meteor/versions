@@ -13,6 +13,7 @@ angular-templates@0.0.3
 angular:angular@1.4.8
 angular:angular-animate@1.4.8
 angular:angular-sanitize@1.4.8
+angularui:angular-google-maps@2.3.2
 angularui:angular-ui-router@0.2.15
 autopublish@1.0.4
 autoupdate@1.2.5-cordova.5
@@ -62,6 +63,7 @@ livedata@1.0.15
 localstorage@1.0.6-cordova.5
 logging@1.0.9-cordova.5
 mdg:camera@1.2.0
+mdg:geolocation@1.2.0
 meteor@1.1.11-cordova.5
 meteor-base@1.0.1
 meteor-env-dev@0.0.1-cordova.5
@@ -76,6 +78,7 @@ modules-runtime@0.5.0-cordova.5
 mongo@1.1.4-cordova.5
 mongo-id@1.0.1
 mquandalle:bower@1.5.2_1
+nmccready:angular-simple-logger@0.0.4
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.40-cordova.5
 oauth@1.1.7-cordova.5
@@ -101,6 +104,7 @@ srp@1.0.5-cordova.5
 standard-minifiers@1.0.3-cordova.5
 standard-minifiers-css@1.0.3-cordova.5
 standard-minifiers-js@1.0.3-cordova.5
+stevezhu:lodash@3.5.0_3
 templating@1.1.6-cordova.5
 templating-tools@1.0.1-cordova.5
 tracker@1.0.10-cordova.5

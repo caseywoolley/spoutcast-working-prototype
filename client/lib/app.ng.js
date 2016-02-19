@@ -2,7 +2,8 @@ angular.module('spoutCastApp', [
   'angular-meteor',
   'ionic',
   'accounts.ui',
-  'ngSanitize'
+  'ngSanitize',
+  'uiGmapgoogle-maps'
 ])
 
 .config(function($sceDelegateProvider) {

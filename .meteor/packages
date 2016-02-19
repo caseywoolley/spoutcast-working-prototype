@@ -28,3 +28,5 @@ edgee:slingshot
 reactive-var
 check
 underscore
+mdg:geolocation
+angularui:angular-google-maps

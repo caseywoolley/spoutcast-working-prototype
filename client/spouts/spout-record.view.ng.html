@@ -1,17 +1,17 @@
 <ion-pane>
 
-  <ion-item ng-if="!newSpout.video && !uploading" class="item-borderless">
+  <ion-item ng-if="!uploaded && !uploading" class="item-borderless">
     <button class="button button-block button-assertive" ng-click="recordSpout()">Record A Review</button>
   </ion-item>
 
   <ion-content class="padding spout-detail">
     <ion-list>
 
-      <ion-item ng-if="newSpout.video || uploading" class="item-borderless">
+      <ion-item ng-if="uploaded || uploading" class="item-borderless">
         <input type="text" placeholder="Title" ng-model="newSpout.title" />
       </ion-item>
 
-      <ion-item ng-show="newSpout.video" class="item-remove-animate item-add-animate item-borderless">
+      <ion-item ng-show="uploaded" class="item-remove-animate item-add-animate item-borderless">
         <div class="video-preview"></div>
         <button class="button button-block button-calm" ng-click="save()">Submit</button>
       </ion-item>
@@ -20,6 +20,9 @@
         <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
       </ion-item>
 
+
     </ion-list>
   </ion-content>
+  <!-- <pre>{{'location: ' + currentLocation.lat }}</pre> -->
+  <pre>{{newSpout}}</pre>
 </ion-pane>
