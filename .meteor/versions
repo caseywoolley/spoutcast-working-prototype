@@ -55,6 +55,7 @@ html-tools@1.0.6-cordova.5
 htmljs@1.0.6-cordova.5
 http@1.1.2-cordova.5
 id-map@1.0.4
+jaymc:google-reverse-geocode@0.0.5
 jquery@1.11.5-cordova.5
 lai:collection-extensions@0.1.4
 launch-screen@1.0.6-cordova.5
@@ -78,6 +79,7 @@ modules-runtime@0.5.0-cordova.5
 mongo@1.1.4-cordova.5
 mongo-id@1.0.1
 mquandalle:bower@1.5.2_1
+netanelgilad:ng-infinite-scroll@1.2.0_1
 nmccready:angular-simple-logger@0.0.4
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.40-cordova.5
@@ -115,3 +117,4 @@ urigo:cancel-fastclick@0.0.2
 url@1.0.6-cordova.5
 webapp@1.2.5-cordova.5
 webapp-hashing@1.0.6-cordova.5
+yong:meteor-videojs@1.1.0

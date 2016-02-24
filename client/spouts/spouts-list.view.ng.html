@@ -1,20 +1,34 @@
 <ion-pane>
   <ion-content class="spouts-list">
     <ion-list>
-      <ion-item collection-repeat="spout in $parent.spouts" item-height="450px" class="item-remove-animate row-no-padding">
-        
-        <video ng-src="{{ awsBucket + spout.owner + '/' + spout.video }}" type="video/quicktime" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>
+      <ion-item collection-repeat="spout in $parent.spouts" item-height="collectionHeight + 'px'" class="item-remove-animate row-no-padding">
+      
+      <div class="video-container">
+        <video  id="spout.video" play-toggle preload="auto" ng-src="{{ awsBucket + spout.owner + '/' + spout.video + '#t=0.01'}}" type="video/quicktime">
           Your browser does not support HTML5 video.
         </video>
-        
-        <div class="spout-details padding">
-          <button ng-click="remove(spout)">Delete</button>
-          {{ spout.title || spout.name }}
-          <pre>{{spout}}</pre>
-        </div>
+      </div>
 
+        <div class="item item-avatar" href="#">
+      <img src="http://vignette2.wikia.nocookie.net/creepypasta/images/3/38/Avatar-blank.jpg/revision/latest?cb=20130607025329">
+      <h2>{{ spout.title }}</h2>
+      <p>Casey Woolley</p>
+    </div>
+
+        <!-- <div class="spout-details padding">
+          <button ng-click="remove(spout)">Delete</button>
+          {{ spout.title }}
+          <pre>{{spout}}</pre>
+        </div> -->
       </ion-item>
+
+
+
+      
     </ion-list>
-    <p>Total number of spouts: {{ $parent.spouts.length }}</p>
+
+    <ion-item>
+      <p>Total number of spouts: {{ $parent.spouts.length }}</p>
+    </ion-item>
   </ion-content>
 </ion-pane>

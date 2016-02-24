@@ -49,6 +49,33 @@
   height: 0px;
   text-align: center;
 }*/
+
+.video-container {
+  position: relative;
+  overflow:hidden;
+}
+
+.video-container:before{
+  content: "";
+  display:inline-block;
+  padding-top: 73%;  /* ~ 3:4 aspect ratio */
+}
+
+video {
+  position: absolute;
+  width: 100%;
+  max-width: 500px;
+  
+  height: auto !important;
+}
+
+/*.vjs-control-bar { display:none!important; }*/
+
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  /*-webkit-appearance: none;*/
+}
+
 .spinner svg {
   width: 19% !important;
   height: 85px !important;

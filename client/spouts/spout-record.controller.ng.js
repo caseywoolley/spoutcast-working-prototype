@@ -1,19 +1,26 @@
 'use strict'
 
 angular.module('spoutCastApp')
-  .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window) {
+  .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window, GeoService) {
 
-    $scope.newSpout = {location:{}};
+    $scope.newSpout = {};
     $scope.uploading = false;
     $scope.uploaded = false;
     $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");
     $scope.awsBucket = 'https://spoutcast-contentdelivery-mobilehub-1722871942.s3.amazonaws.com/';
+    $scope.getUser = Meteor.user;
+    
 
-    $scope.helpers({
-      currentLocation: function() { 
-        // $scope.newSpout.location = Geolocation.latLng();
-        return Geolocation.latLng();
-      }
+    $scope.getCoords = function(){
+      return Geolocation.latLng();
+    };
+
+    $scope.autorun(function(){
+      var coords = $scope.getCoords();
+      GeoService.getLocation(coords, function(data){
+        $scope.address = data.address;
+        $scope.$apply();
+      });
     });
 
     //$scope.newSpout.location = $scope.currentLocation; 
@@ -108,22 +115,38 @@ angular.module('spoutCastApp')
       console.log('save')
       //callback = callback || function(){return;};
       if (Meteor.user()) {
-        $scope.newSpout.location = {};
-        $scope.newSpout.location.latitude = $scope.currentLocation.lat;
-        $scope.newSpout.location.longitude = $scope.currentLocation.lng;
-        $scope.newSpout.owner = Meteor.user()._id;
-        // $scope.newSpout.active = true;
-        Spouts.insert($scope.newSpout);
-        $scope.newSpout = {};
-        $scope.uploaded = false;
+        // $scope.newSpout.location = {};
+        // $scope.newSpout.location.latitude = $scope.currentLocation.lat;
+        // $scope.newSpout.location.longitude = $scope.currentLocation.lng;
+
+        // GeoService.getLocation(function(location){
+        //   if (err){ 
+        //     console.log(err);
+        //     return;
+        //   }
+        var location = Session.get('location');
+        console.log(location)
+        if (location) {
+          $scope.newSpout.location = {};
+          $scope.newSpout.location.latitude = location.latitude;
+          $scope.newSpout.location.longitude = location.longitude;
+          $scope.newSpout.owner = Meteor.user()._id;
+          // $scope.newSpout.active = true;
+          Spouts.insert($scope.newSpout);
+          $scope.newSpout = {};
+          $scope.uploaded = false;
+        }
+        // });
       }
     };
+
 
     // $scope.update = function(id, spout) {
     //   if (spout.owner === Meteor.userId()._id) {
     //     Spouts.update(id, {$set: spout});
     //   }
     // };
+
 
     $scope.remove = function(spout) {
       if (spout.owner === Meteor.userId()._id) {

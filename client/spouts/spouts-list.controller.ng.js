@@ -1,15 +1,54 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('SpoutsListCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate) {
+.controller('SpoutsListCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, GeoService, $reactive) {
 
-  $scope.user = Meteor.user();
   $scope.awsBucket = 'https://spoutcast-contentdelivery-mobilehub-1722871942.s3.amazonaws.com/';
+  $scope.collectionHeight = window.screen.width * 0.73 + 80;
+  // var page = 20;
+
+  // $scope.subscribe('images', {
+  //     skip: 0,
+  //     limit: 2 * page
+  // });
+
+  // $scope.images = $meteor.collection(function() {
+  //     return Images.find();
+  // });
+
+  // $scope.loadMore = function() {
+  //     var len = $scope.images.length;
+  //     $meteor.subscribe('images', {
+  //         skip: len,
+  //         limit: page
+  //     });
+  // };
+  console.log('width',window.screen.width)
+
+  $scope.autorun(function(){
+    console.log('autorun')
+    // $scope.getReactively('test'));
+    Session.set('location', Geolocation.latLng());
+  });
+
+  $scope.getLoc = function(){
+    return Geolocation.latLng();
+  };
+
+  $scope.currentLocation = function(){
+    return Session.get('location');
+  };
+
+  $scope.here = Session.get('location')
+  $scope.getReactively('here');
+
 
   $scope.helpers({
     spouts: function() {
       return Spouts.find({});
-    }
+    },
+    // currentLocation: GeoService.currentLocation,
+    address: GeoService.address
   });
                   
   $scope.subscribe('spouts', function() {

@@ -1,5 +1,18 @@
 Meteor.startup(function () {
-	console.log(Meteor.settings.AWSAccessKeyId);
+
+// 	Meteor.methods({
+// 	  locationName: function(lat, lng){
+// 	  console.log(lat, lng);
+// 	  var geo = new GeoCoder({
+//     geocoderProvider: 'google',
+//     httpAdapter: 'http'
+//   });
+// 	  console.log(lat, lng)
+// 	  var reverseGeocoding = geo.reverse(lat, lng);
+
+// 	  return reverseGeocoding;
+// 	}
+// });
 	// process.env.MOBILE_DDP_URL = 'http://127.0.0.1:3000/';
 	// process.env.MOBILE_ROOT_URL = 'http://127.0.0.1:3000/';
 
