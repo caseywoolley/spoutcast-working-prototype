@@ -25,7 +25,13 @@ Slingshot.createDirective( "uploadToAmazonS3", Slingshot.S3Storage, {
       }).toLowerCase();
     };
 
+    var extensions = {
+      'image/png': 'png',
+      'image/jpeg': 'jpg',
+      'video/quicktime': 'mov'
+    };
+    console.log(file);
     //userId/vidId
-    return this.userId + '/' + mongoObjectId() + '.mov';
+    return this.userId + '/' + (file.name || mongoObjectId()) + '.' + extensions[file.type];
   }
 });

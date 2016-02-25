@@ -3,32 +3,47 @@
 
   <ion-content class="padding spout-detail">
     <ion-list>
-    
-      <ion-item ng-if="!uploaded && !uploading" class="item-borderless">
-        <button class="button button-block button-assertive" ng-click="recordSpout()">Record A Review</button>
-      </ion-item>
 
       <ion-item>
       <b>You Are Here:</b>
       <h2>{{address}}</h2>
       <h2>location {{getCoords()}}</h2>
       </ion-item>
+    
+      <ion-item class="item-borderless">
+        <button class="button button-block button-assertive" ng-click="recordSpout()">Record A Review</button>
+      </ion-item>
 
-      <ion-item ng-if="uploaded || uploading" class="item-borderless">
+      <ion-item class="item-borderless">
         <input type="text" placeholder="Title" ng-model="newSpout.title" />
       </ion-item>
 
-      <ion-item ng-show="uploaded" class="item-remove-animate item-add-animate item-borderless">
-        <div class="video-preview"></div>
+      <ion-item>
+        <div class="video-preview video-container">
+        </div>
+      </ion-item>
+
+      <ion-item>
+        <button class="button button-block button-default" ng-click="makeThumbnail()">Thumbnail</button>
+      </ion-item>
+
+      <ion-item>
+        <canvas id="canvas"></canvas>
+        <div class="download"></div>
+      </ion-item>
+
+      <ion-item>
         <button class="button button-block button-calm" ng-click="save()">Submit</button>
       </ion-item>
+
+      
 
       <ion-item ng-if="uploading" class="spinner item-borderless">
         <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
       </ion-item>
 
 
+      <pre>{{newSpout}}</pre>
     </ion-list>
   </ion-content>
-  <pre>{{newSpout}}</pre>
 </ion-pane>
