@@ -3,8 +3,7 @@ angular.module('spoutCastApp', [
   'ionic',
   'accounts.ui',
   'ngSanitize',
-  'uiGmapgoogle-maps',
-  'infinite-scroll'
+  'uiGmapgoogle-maps'
 ])
 
 .config(function($sceDelegateProvider) {

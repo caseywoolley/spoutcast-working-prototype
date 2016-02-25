@@ -31,6 +31,4 @@ underscore
 mdg:geolocation
 angularui:angular-google-maps
 jaymc:google-reverse-geocode
-yong:meteor-videojs
-netanelgilad:ng-infinite-scroll
 pdiniz:canvas-to-blob

@@ -1,13 +1,11 @@
 <ion-pane>
-
-
   <ion-content class="padding spout-detail">
     <ion-list>
 
       <ion-item>
       <b>You Are Here:</b>
       <h2>{{address}}</h2>
-      <h2>location {{getCoords()}}</h2>
+      <h2>location {{latLng}}</h2>
       </ion-item>
     
       <ion-item class="item-borderless">
@@ -29,19 +27,15 @@
 
       <ion-item>
         <canvas id="canvas"></canvas>
-        <div class="download"></div>
       </ion-item>
 
       <ion-item>
         <button class="button button-block button-calm" ng-click="save()">Submit</button>
       </ion-item>
 
-      
-
       <ion-item ng-if="uploading" class="spinner item-borderless">
         <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
       </ion-item>
-
 
       <pre>{{newSpout}}</pre>
     </ion-list>

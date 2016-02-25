@@ -3,21 +3,20 @@
 angular.module('spoutCastApp')
 .factory('GeoService', function() {
 
-  
-    var currentLocation = function() { 
-        getLocation(Geolocation.latLng(), function(location){
-            Session.set('location', location);
-            return location;
-        });
-      };
+    // var currentLocation = function() { 
+    //     getLocation(Geolocation.latLng(), function(location){
+    //         Session.set('location', location);
+    //         return location;
+    //     });
+    //   };
 
-      var address = function(){
-        if (Session.get('location')){
-          return Session.get('location').address;
-        }
-      };
+    //   var address = function(){
+    //     if (Session.get('location')){
+    //       return Session.get('location').address;
+    //     }
+    //   };
 
-    var getLocation = function(coords, callback) {
+    var getAddress = function(coords, callback) {
       // coords =  coords || { lat: 0, lng: 0 };
       if (coords) {
         reverseGeocode.getLocation(coords.lat, coords.lng, function(data){
@@ -40,8 +39,8 @@ angular.module('spoutCastApp')
     };
 
     return {
-      currentLocation: currentLocation,
-      address: address,
-      getLocation: getLocation
+      // currentLocation: currentLocation,
+      // address: address,
+      getAddress: getAddress
   };
 });
