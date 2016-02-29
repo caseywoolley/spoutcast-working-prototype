@@ -1,6 +1,7 @@
 .video-container {
   position: relative;
   overflow:hidden;
+  background: grey;
 }
 
 .video-container:before{
@@ -15,6 +16,7 @@ video {
   height: auto !important;
 }
 
+
 video::-webkit-media-controls-start-playback-button {
   display: none !important;
   /*-webkit-appearance: none;*/
@@ -23,4 +25,22 @@ video::-webkit-media-controls-start-playback-button {
 .spinner svg {
   width: 19% !important;
   height: 85px !important;
+}
+
+.center {
+  text-align: center;
+}
+
+/*@media (min-width: 680px){*/
+  .modal{
+    top: 0px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+/*}*/
+
+.g-places-autocomplete-drawer {
+  width: 100%;
 }

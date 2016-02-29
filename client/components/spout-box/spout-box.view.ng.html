@@ -1,0 +1,20 @@
+<div class="video-container">
+	<video 
+	id="{{spout._id}}"
+	ng-src="{{video}}" 
+	poster="{{poster}}" 
+	play-toggle
+	type="video/quicktime">
+		Your browser does not support HTML5 video.
+	</video>
+</div>
+<div class="item item-avatar" href="#">
+	<img src="http://vignette2.wikia.nocookie.net/creepypasta/images/3/38/Avatar-blank.jpg/revision/latest?cb=20130607025329">
+	<h2>{{ spout.title }}</h2>
+	<p>Casey Woolley</p>
+</div>
+<div class="spout-details padding">
+	<button ng-click="remove(spout)">Delete</button>
+	{{ spout.title }}
+	<pre>{{spout}}</pre>
+</div>

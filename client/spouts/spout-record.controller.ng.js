@@ -1,13 +1,46 @@
 'use strict'
 
 angular.module('spoutCastApp')
-  .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window, GeoService) {
+  .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window, GeoService, $ionicModal) {
 
     $scope.newSpout = {};
     $scope.uploading = false;
     $scope.uploaded = false;
     $scope.awsBucket = Meteor.settings.public.AWSBucket;
     $scope.getUser = Meteor.user;
+    $scope.search = '';
+    $scope.vidPath;
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+      function onDeviceReady() {
+          console.log('cfile',cordova.file);
+    }
+
+    $ionicModal.fromTemplateUrl('templates/modal.html', {
+      scope: $scope
+    }).then(function(modal) {
+      $scope.modal = modal;
+    });
+
+    // $scope.$watch('search', function(newVal){
+    //   console.log('changed')
+    //   $scope.getPredictions(newVal); 
+    // });
+
+    $scope.getPredictions = function(query){
+      console.log('query', query)
+      var predictions = document.querySelector('.pac-container');
+      console.log('predictions',predictions)
+      if (predictions !== null || query === ''){
+        var container = document.querySelector('.place-results');
+        container.appendChild(predictions);
+      }
+    };
+
+
+    // $scope.$on('g-places-autocomplete:select', function(event, data){
+    //   console.log('complete', data)
+    // });
     
     $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");
     $scope.uploadThumb = new Slingshot.Upload("uploadToAmazonS3");
@@ -63,11 +96,11 @@ angular.module('spoutCastApp')
       // });
       console.log(mediaFiles[0]);
       var path = '/local-filesystem' + mediaFiles[0].fullPath;
-
+      $scope.vidPath = path + '#t=0.01';
       //vid preview
       var v = '<video id="video-preview" play-toggle preload="auto" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>';
       v += '<source src="' + path + '#t=0.01' + '" type="video/quicktime">';
-      v += '</video>';
+      v += '</video> <spout-box spout="newSpout"></spout-box>';
       document.querySelector(".video-preview").innerHTML = v;
       
       //$scope.newSpout.video = path;
@@ -118,6 +151,9 @@ angular.module('spoutCastApp')
     };
 
     $scope.recordSpout = function() {
+      //var dirReader = cordova.file.root.createReader();
+      //$scope.fs = cordova.file.getFreeDiskSpace();
+      console.log('fs', cordova);
       if (Meteor.user()) {
         if (Meteor.isCordova) {
           console.log('using mobile device');
@@ -132,6 +168,8 @@ angular.module('spoutCastApp')
             console.log(data)
           });
         }
+      } else {
+        console.log('not logged in');
       }
     };
 

@@ -3,7 +3,8 @@ angular.module('spoutCastApp', [
   'ionic',
   'accounts.ui',
   'ngSanitize',
-  'uiGmapgoogle-maps'
+  'uiGmapgoogle-maps',
+  'google.places'
 ])
 
 .config(function($sceDelegateProvider) {
@@ -19,6 +20,10 @@ onReady = function() {
   
 if(Meteor.isCordova) {
   angular.element(document).on('deviceready', onReady);
+  angular.module('spoutCastApp')
+  .run(function() {
+    FastClick.attach(document.body);
+  });
 } else {
   angular.element(document).ready(onReady);
 }

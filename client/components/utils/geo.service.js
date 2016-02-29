@@ -3,24 +3,9 @@
 angular.module('spoutCastApp')
 .factory('GeoService', function() {
 
-    // var currentLocation = function() { 
-    //     getLocation(Geolocation.latLng(), function(location){
-    //         Session.set('location', location);
-    //         return location;
-    //     });
-    //   };
-
-    //   var address = function(){
-    //     if (Session.get('location')){
-    //       return Session.get('location').address;
-    //     }
-    //   };
-
     var getAddress = function(coords, callback) {
-      // coords =  coords || { lat: 0, lng: 0 };
       if (coords) {
         reverseGeocode.getLocation(coords.lat, coords.lng, function(data){
-          //Session.set('location', reverseGeocode.getAddrObj());
           if (data.status === "OK"){
             var loc = data.results[0];
             var location = {
@@ -39,8 +24,36 @@ angular.module('spoutCastApp')
     };
 
     return {
-      // currentLocation: currentLocation,
-      // address: address,
       getAddress: getAddress
-  };
-});
+    };
+})
+.directive('searchBar', [
+    () => {
+    return {
+        scope: {
+            ngModel: '='
+        },
+        require: ['?ngModel'],
+        restrict: 'E',
+        replace: true,
+        template: `<div class="item item-input-inset">
+                        <label class="item-input-wrapper">
+                            <i class="icon ion-ios-search-strong placeholder-icon"></i>
+                            <input type="search"
+                                   placeholder="Search"
+                                   ng-model="ngModel.text">
+
+                            <a ng-if="ngModel.text != ''"
+                               on-touch="ngModel.text=''">
+
+                                <i class="icon ion-ios-close placeholder-icon"></i>
+                            </a>
+                        </label>
+                    </div>
+                    `,
+
+        link: (scope, element, attrs)=>{
+
+        }
+    };
+}])
