@@ -1,0 +1,27 @@
+<ion-pane>
+  <ion-content class="padding locations-list">
+    <h1>Locations</h1>
+    <!--
+      Due to ion-content creating a child scope, we have to use $parent to
+      access our own scope. This only applies for variables inside an
+      ion-content directive. Outside ion-content you can call 'locations' directly
+    -->
+    <form ng-submit="$parent.save()" name="$parent.form" novalidate="">
+      <div class="list">
+        <label class="item item-input">
+          <input type="text" placeholder="Name" ng-model="$parent.newLocation.name" />
+        </label>
+      </div>
+      <button class="button button-block button-positive" type="submit">Add</button>
+    </form>
+    <div class="list">
+      <div class="item item-button-right" ng-repeat="location in $parent.locations">
+        <a href="/locations/{{location._id}}">{{ location.name }}</a>
+        <button class="button button-assertive" ng-click="$parent.remove(location)">
+          <i class="icon ion-trash-a"></i>
+        </button>
+      </div>
+    </div>
+    <p>Total number of locations: {{ $parent.locations.length }}</p>
+  </ion-content>
+</ion-pane>
