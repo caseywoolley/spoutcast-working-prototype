@@ -80,6 +80,7 @@ modules-runtime@0.5.0-cordova.5
 mongo@1.1.4-cordova.5
 mongo-id@1.0.1
 mquandalle:bower@1.5.2_1
+netanelgilad:ng-cordova@0.1.13
 nmccready:angular-simple-logger@0.0.4
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.40-cordova.5

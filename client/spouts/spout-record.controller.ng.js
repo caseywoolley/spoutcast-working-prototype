@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-  .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window, GeoService, $ionicModal) {
+  .controller('SpoutRecordCtrl', function($scope, $ionicScrollDelegate, $ionicListDelegate, $window, GeoService, $ionicModal, $cordovaFile) {
 
     $scope.newSpout = {};
     $scope.uploading = false;
@@ -10,6 +10,13 @@ angular.module('spoutCastApp')
     $scope.getUser = Meteor.user;
     $scope.search = '';
     $scope.vidPath;
+
+    var path = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'capturedvideo.MOV';
+    $scope.vidPath = path;
+    var v = '<video id="video-preview" play-toggle preload="auto" style="height:300px;width:100%" controls>';
+      v += '<source src="' + path + '#t=0.01' + '" type="video/quicktime">';
+      v += '</video> <spout-box spout="newSpout"></spout-box>' + path;
+      document.querySelector(".video-preview").innerHTML = v;
 
     document.addEventListener("deviceready", onDeviceReady, false);
       function onDeviceReady() {
@@ -96,6 +103,20 @@ angular.module('spoutCastApp')
       // });
       console.log(mediaFiles[0]);
       var path = '/local-filesystem' + mediaFiles[0].fullPath;
+
+      //move file 
+      var pathParts = mediaFiles[0].fullPath.split("/");
+      var origPath = pathParts.pop();
+      origPath = 'file://' + pathParts.join('/');
+      console.log('from', origPath)
+      $cordovaFile.moveFile(origPath, mediaFiles[0].name, cordova.file.syncedDataDirectory, mediaFiles[0].name)
+        .then(function(movedFile){
+          console.log('movedFile', movedFile);
+          path = cordova.file.syncedDataDirectory + movedFile.name;
+        }, function(err){
+          console.log('err', err);
+        });
+
       $scope.vidPath = path + '#t=0.01';
       //vid preview
       var v = '<video id="video-preview" play-toggle preload="auto" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>';
@@ -153,7 +174,10 @@ angular.module('spoutCastApp')
     $scope.recordSpout = function() {
       //var dirReader = cordova.file.root.createReader();
       //$scope.fs = cordova.file.getFreeDiskSpace();
-      console.log('fs', cordova);
+      console.log('cordova', $cordovaFile);
+      console.log('files', cordova.file);
+      $scope.fs = cordova.file.syncedDataDirectory;
+      $scope.fs = cordova.file.tempDirectory;
       if (Meteor.user()) {
         if (Meteor.isCordova) {
           console.log('using mobile device');

@@ -4,7 +4,8 @@ angular.module('spoutCastApp', [
   'accounts.ui',
   'ngSanitize',
   'uiGmapgoogle-maps',
-  'google.places'
+  'google.places',
+  'ngCordova'
 ])
 
 .config(function($sceDelegateProvider) {
