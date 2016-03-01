@@ -1,8 +1,25 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationsListCtrl', function($scope, $ionicScrollDelegate) {
+.controller('LocationsListCtrl', function($scope, $ionicScrollDelegate, $ionicModal, GeoService) {
 
+  $scope.newLocation = {};
+
+  $scope.autorun(function() {
+      // $scope.latLng = Geolocation.latLng();
+      $scope.newLocation.latLng = Geolocation.latLng();
+      GeoService.getAddress($scope.newLocation.latLng, function(data){
+        $scope.$apply(function(){
+          $scope.newLocation.formatted_address = data.address;
+        });
+      }); 
+  });
+
+  $ionicModal.fromTemplateUrl('templates/modal.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
     
   $scope.helpers({
     locations: function() {
@@ -15,15 +32,16 @@ angular.module('spoutCastApp')
   });
 
   $scope.save = function() {
-    if ($scope.form.$valid) {
+    // if ($scope.form.$valid) {
       Locations.insert($scope.newLocation);
-      $scope.newLocation = undefined;
+      $scope.newLocation = {};
       $ionicScrollDelegate.resize();
-    }
+      $scope.modal.hide();
+    // }
   };
                   
   $scope.remove = function(location) {
-    Locations.remove({_id:location.id});
+    Locations.remove({_id:location._id});
     $ionicScrollDelegate.resize();
   };
 });

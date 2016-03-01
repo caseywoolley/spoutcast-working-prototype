@@ -12,6 +12,7 @@ angular.module('spoutCastApp')
     $scope.vidPath;
 
     if (Meteor.isCordova) {
+
       var path = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/capturedvideo.MOV';
       $scope.vidPath = path;
       var v = '<video id="video-preview" play-toggle preload="auto" style="height:300px;width:100%" controls>';

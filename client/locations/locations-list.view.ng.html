@@ -1,11 +1,22 @@
 <ion-pane>
-  <ion-content class="padding locations-list">
-    <h1>Locations</h1>
-    <!--
-      Due to ion-content creating a child scope, we have to use $parent to
-      access our own scope. This only applies for variables inside an
-      ion-content directive. Outside ion-content you can call 'locations' directly
-    -->
+  <ion-content class="locations-list">
+
+    <h3 class="center">Review A Location</h3>
+    <ul class="list">
+      <div class="list">
+        <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}">
+          <h2>{{ location.name }}</h2>
+          <p>{{ location.formatted_address }}</p>
+          <!-- <i class="badge badge-assertive">3.5</i> -->
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+      </div>
+    </ul>
+    
+    <button class="button button-block button-calm" ng-click="modal.show()">Add A Location</button>
+    {{newLocation}}
+    <!-- <h1>Locations</h1>
+
     <form ng-submit="$parent.save()" name="$parent.form" novalidate="">
       <div class="list">
         <label class="item item-input">
@@ -22,6 +33,51 @@
         </button>
       </div>
     </div>
-    <p>Total number of locations: {{ $parent.locations.length }}</p>
+    <p>Total number of locations: {{ $parent.locations.length }}</p> -->
   </ion-content>
 </ion-pane>
+
+<script id="templates/modal.html" type="text/ng-template"> 
+      <ion-modal-view>
+
+      <ion-header-bar class="bar bar-header item-input-inset">
+
+          <div class="item-input-wrapper">
+             <i class="icon ion-ios-search-strong placeholder-icon"></i>
+             <input type="search"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    g-places-autocomplete
+                    placeholder="Search"
+                    ng-change="getPredictions(search)"
+                    ng-model="search">
+              <div ng-if="search != ''" 
+                 ng-click="search = ''">
+                 <i class="icon ion-ios-close placeholder-icon"></i>
+              </div>
+          </div>
+
+        <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+        </ion-header-bar>
+
+
+        <ion-content class="padding">
+          <div class="list">
+            <div class="place-results"></div>
+
+              <label class="item item-input">
+                <input type="text" ng-model="newLocation.name" placeholder="Location Name">
+              </label>
+              <label class="item item-input">
+                <input type="text" ng-model="newLocation.formatted_address" placeholder="Address">
+              </label>
+              <label class="item item-input">
+                <input type="text" ng-model="newLocation.latLng.lat" placeholder="latitude">
+                <input type="text" ng-model="newLocation.latLng.lng" placeholder="longitude">
+              </label>
+
+            <button class="button button-full button-calm" ng-click="save()">Add</button>
+          </div>
+        </ion-content>
+      </ion-modal-view>
+    </script>
