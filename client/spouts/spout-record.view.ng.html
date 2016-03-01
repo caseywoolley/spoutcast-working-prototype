@@ -1,8 +1,5 @@
 <ion-pane>
-  <ion-content class="padding spout-detail">
-
-    
-
+  <ion-content class="spout-detail">
     <ion-list>
 
       <ion-item>
@@ -10,14 +7,11 @@
       <h2>{{address}}</h2>
       <h2>location {{latLng}}</h2>
       </ion-item>
-
-
     
       <ion-item class="item-borderless">
-        <button class="button button-block button-assertive" ng-click="recordSpout()">Record A Reviews</button>
+        <button class="button button-block button-assertive" ng-click="recordSpout()">Record A Review</button>
       </ion-item>
 
-      {{fs}}
       {{vidPath}}
 
       <ion-item class="item-borderless">
@@ -29,7 +23,6 @@
         </div>
 
         <spout-box 
-        ng-if="uploaded" 
         spout="newSpout"
         video="vidPath"
         poster="posterPath">
@@ -83,7 +76,7 @@
       </div>
     </ul>
     
-    <button class="button button-block button-calm" ng-click="modal.show()">Add New Location</button>
+    <button class="button button-block button-calm" ng-click="modal.show()">Add A Location</button>
 
   </ion-content>
 </ion-pane>

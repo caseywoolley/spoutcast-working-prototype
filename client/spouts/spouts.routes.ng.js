@@ -4,7 +4,7 @@ angular.module('spoutCastApp')
 .config(function($stateProvider) {
   $stateProvider
   .state('spouts-list', {
-    url: '/spouts',
+    url: '/',
     templateUrl: 'client/spouts/spouts-list.view.ng.html',
     controller: 'SpoutsListCtrl'
   })
