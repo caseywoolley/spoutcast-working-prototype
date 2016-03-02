@@ -1,0 +1,25 @@
+<ion-pane>
+  <ion-content class="reviews-list">
+    <ion-list>
+      <ion-item collection-repeat="review in $parent.reviews"  class="item-remove-animate row-no-padding">
+        <spout-box
+        ng-if="review.active" 
+        spout="review"
+        video="awsBucket + review.owner + '/' + review.video + '.mov'"
+        poster="awsBucket + review.owner + '/' + review.video + '.jpg'"
+        remove="remove">
+        </spout-box>
+        <spout-box
+        ng-if="!review.active" 
+        spout="review"
+        video="localPath + review._id + '.mov'"
+        poster="localPath + review._id + '.jpg'"
+        remove="remove">
+        </spout-box>
+      </ion-item>
+    </ion-list>
+    <ion-item>
+      <p>Total number of reviews: {{ $parent.reviews.length }}</p>
+    </ion-item>
+  </ion-content>
+</ion-pane>

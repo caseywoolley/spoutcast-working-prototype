@@ -6,15 +6,22 @@ angular.module('spoutCastApp')
   $scope.viewName = 'Map';
 
   $scope.helpers({
-    spouts: function() {
-      return Spouts.find({});
+    locations: function() {
+      return Locations.find({});
     }
   });
                   
-  $scope.subscribe('spouts', function() {
+  $scope.subscribe('locations', function() {
     return [{}, $scope.getReactively('search')];
   });
 
+  $scope.autorun(function() {
+    _.each($scope.locations, function(location){
+      location.coords = {};
+      location.coords.latitude = location.latLng.lat;
+      location.coords.longitude = location.latLng.lng;
+    });
+  });
 
   $scope.map = {
   	center: {
@@ -24,6 +31,6 @@ angular.module('spoutCastApp')
   	zoom: 10,
   	onClicked: function(){ console.log('clicked');}
   };
-  console.log($scope.spouts)
+  console.log('locations',$scope.locations)
   // console.log($scope.currentLocation)
 });

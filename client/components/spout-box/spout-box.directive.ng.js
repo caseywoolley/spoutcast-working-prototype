@@ -8,7 +8,8 @@ angular.module('spoutCastApp')
     scope: {
     	spout: '=',
     	'video': '=',
-    	'poster': '='
+    	'poster': '=',
+      'remove': '='
     },
     templateUrl: 'client/components/spout-box/spout-box.view.ng.html',
   //   link: function(scope, element, attrs, ctrl, transclude) {

@@ -4,15 +4,17 @@
     <h3 class="center">Review A Location</h3>
     <ul class="list">
       <div class="list">
-        <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}">
+        <!-- <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}"> -->
+        <a class="item item-icon-right" ng-repeat="location in $parent.locations" ng-click="addReview(location)" href="#">
           <h2>{{ location.name }}</h2>
           <p>{{ location.formatted_address }}</p>
-          <!-- <i class="badge badge-assertive">3.5</i> -->
-          <i class="icon ion-ios-arrow-right"></i>
+          <button ng-click="remove(location)">Delete</button>
+          <i ng-if="!getReview(location)" class="badge badge-calm">Check In</i>
+          <i ng-if="getReview(location)" class="icon ion-ios-arrow-right"></i>
         </a>
       </div>
     </ul>
-    
+    {{reviews}}
     <button class="button button-block button-calm" ng-click="modal.show()">Add A Location</button>
     {{newLocation}}
     <!-- <h1>Locations</h1>
@@ -37,7 +39,7 @@
   </ion-content>
 </ion-pane>
 
-<script id="templates/modal.html" type="text/ng-template"> 
+<script id="templates/add-location.html" type="text/ng-template"> 
       <ion-modal-view>
 
       <ion-header-bar class="bar bar-header item-input-inset">
