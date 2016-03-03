@@ -13,9 +13,4 @@ angular.module('spoutCastApp')
     templateUrl: 'client/reviews/review-detail.view.ng.html',
     controller: 'ReviewDetailCtrl'
   })
-  .state('review-add', {
-    url: '/add-review',
-    templateUrl: 'client/reviews/review-add.view.ng.html',
-    controller: 'ReviewAddCtrl'
-  });
 });

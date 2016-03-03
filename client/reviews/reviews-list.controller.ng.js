@@ -7,8 +7,6 @@ angular.module('spoutCastApp')
 
   if (Meteor.isCordova) {
     $scope.localPath = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/';
-    // var v = '<spout-box spout="' + $scope.review + '" video="'+ $scope.localPath +'"></spout-box>';
-    // document.querySelector(".video-preview").innerHTML = v;
   }
 
   $scope.helpers({

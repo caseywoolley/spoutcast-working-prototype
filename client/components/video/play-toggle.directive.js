@@ -8,6 +8,7 @@ angular.module('spoutCastApp')
     	var vid = el[0];
       var swiping = false;
       var touchStarted = false;
+      
       el.bind('touchstart mousedown', function() {
         touchStarted = true;
       });

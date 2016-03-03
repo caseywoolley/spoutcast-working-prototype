@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('ReviewDetailCtrl', function($scope, $stateParams, $cordovaFile) {
+.controller('ReviewDetailCtrl', function($scope, $rootScope, $stateParams, $cordovaFile) {
   
   $scope.awsBucket = Meteor.settings.public.AWSBucket;
   $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");
@@ -9,39 +9,95 @@ angular.module('spoutCastApp')
   $scope.uploading = false;
   $scope.uploaded = false;
 
+
   $scope.helpers({
     review: function() {
       return Reviews.findOne({ _id: $stateParams.id }); 
     },
     location: function() {
-      return Locations.findOne({ _id: $scope.review.location }); 
+      return Locations.findOne({ _id: $scope.review.location_id }); 
     }
   });
   
   $scope.subscribe('reviews');
   $scope.subscribe('locations');
 
-  //testing video file on disk
   if (Meteor.isCordova) {
-    var path = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/' + $scope.review._id + '.mov';
-    $scope.vidPath = path;
-    var v = '<spout-box spout="' + $scope.review + '" video="'+ path +'"></spout-box>';
-    document.querySelector(".video-preview").innerHTML = v;
+    $scope.localPath = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/';
   }
 
+  $scope.setVideo = function(){
+    $scope.review.video = true;
+    $scope.update($scope.review._id, {video: true});
+  };
+
+  $rootScope.triggerRelink = function() {
+    console.log('broadcast')
+    $rootScope.$broadcast('reload-video');
+  };
+
+  $scope.reloadVideo = function(){ 
+    console.log('reload')
+    $rootScope.triggerRelink();
+  };
+
+  $scope.checkFile = function(folder, file) {
+    var filePath = cordova.file.syncedDataDirectory + folder + '/';
+    $cordovaFile.checkFile(filePath , file)
+      .then(function(file){ 
+        console.log('File Found ', file);
+      }, 
+      function(err){ 
+        console.log('No file found');
+      });
+  };
+
+  $scope.$on('video-loaded', function(el) { console.log('el', el); });
 
   $scope.getThumbnail = function(callback){
     //example - http://jsfiddle.net/giu_do/e98tffu6/
     var canvas = document.getElementById('canvas');
-    var video = document.getElementById('video-preview');
+    var video = document.getElementById($scope.review._id + 'hidden');
 
-    canvas.height = video.videoHeight;
-    canvas.width = video.videoWidth;
-    canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+    console.log('video found', video)
 
-    canvas.toBlob(function(blob){
-      callback(blob);
-    },"image/jpeg", 0.95); //95% quality jpg
+    video.onloadeddata = function () {
+      console.log('video frame loaded')
+      // do something
+    
+
+      canvas.height = video.videoHeight;
+      canvas.width = video.videoWidth;
+      canvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+      var url = canvas.toDataURL('image/jpeg');
+      if (callback) {
+        callback(url)
+      }
+
+      // console.log('url', url)
+      canvas.toBlob(function(blob){
+        console.log(blob)
+
+
+
+        $cordovaFile.writeFile(cordova.file.syncedDataDirectory + 'media/', $scope.review._id + '.jpg', blob, true)
+        .then(function (success) {
+          // success
+          console.log('thumb', success)
+          $scope.review.poster = true;
+          $scope.update($scope.review._id, {poster: true});
+        }, function (error) {
+          // error
+          console.log('error', error)
+        });
+
+        if (callback) {
+          //callback(blob);
+        }
+      },"image/jpeg", 0.75); //75% quality jpg
+
+    };
   };
 
   var getBlobURL = function(url, mime, callback) {
@@ -80,24 +136,44 @@ angular.module('spoutCastApp')
       console.log('from', fromPath)
       console.log('to', toPath)
       $cordovaFile.createDir(cordova.file.syncedDataDirectory, 'media', false)
-        .then(function(dir){
-          console.log('dir', dir);
-        }, function(err){
-          console.log('err', err);
-        });
+        .then(function(dir){ console.log('Created ', dir);}, 
+              function(err){ console.log('Directory already exists');});
+
       $cordovaFile.moveFile(fromPath, mediaFiles[0].name, toPath, $scope.review._id + '.mov')
         .then(function(movedFile){
           console.log('movedFile', movedFile);
           path = cordova.file.syncedDataDirectory + 'media/' + movedFile.name;
+          console.log('review',$scope.review)
+          
+          $scope.review.video = true;
+          $scope.update($scope.review._id, {video: true});
+          // $scope.getThumbnail();
         }, function(err){
           console.log('err', err);
         });
-      console.log('moved path', path)
+
+        console.log('moved path', path)
+
+        //generate thumbnail
+        // $scope.getThumbnail(function(file){
+        //   console.log(file)
+        //   $cordovaFile.writeFile(cordova.file.syncedDataDirectory, $scope.review._id + '.jpg', file, true)
+        //   .then(function (success) {
+        //     // success
+        //     console.log('success', success)
+        //   }, function (error) {
+        //     // error
+        //     console.log('error', error)
+        //   });
+        // });
+
+
+
       //vid preview
-      var v = '<video id="video-preview" play-toggle preload="auto" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>';
-      v += '<source src="' + path + '#t=0.01' + '" type="video/quicktime">';
-      v += '</video> <spout-box spout="newSpout"></spout-box>';
-      document.querySelector(".video-preview").innerHTML = v;
+      // var v = '<video id="video-preview" play-toggle preload="auto" style="height:300px;width:100%" poster="http://placehold.it/480x360" controls>';
+      // v += '<source src="' + path + '#t=0.01' + '" type="video/quicktime">';
+      // v += '</video> <spout-box spout="newSpout"></spout-box>';
+      // document.querySelector(".video-preview").innerHTML = v;
       
       //$scope.newSpout.video = path;
 
@@ -135,12 +211,14 @@ angular.module('spoutCastApp')
                   console.error('Error uploading', $scope.uploadThumb.xhr.response);
                 } else {
                   console.log('thumb', downloadUrl)
-                  // $scope.review.active = true;
-                  //TODO: update review status to active;
                 }
               });
             });
           }
+
+          $scope.review.active = true;
+          $scope.update($scope.review._id, {active: true});
+
           $scope.$apply(function(){
             $scope.uploaded = true;
             $scope.uploading = false;
@@ -170,8 +248,17 @@ angular.module('spoutCastApp')
       }
     };
 
-    $scope.update = function() {
-      //update changes as you go
+    $scope.update = function(id, updates) {
+      // if ($scope.review.user_id === Meteor.userId()._id) {
+        // var id = update._id;
+        // delete update._id;
+        Reviews.update({_id: id }, {$set: updates});
+      // }
+    };
+
+    $scope.publish = function(review) {
+      console.log('review', review)
+      console.log('video', $scope.localPath + review._id + '.mov')
     };
 
   // $scope.save = function() {

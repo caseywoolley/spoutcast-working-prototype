@@ -26,11 +26,8 @@ angular.module('spoutCastApp')
 	 //    });
 		// }
 
-    // controller: function ($scope, $element) {
-    //   $scope.add = function () {
-    //     var el = $compile("<test text='n'></test>")($scope);
-    //     $element.parent().append(el);
-    //   };
-    // }
+    controller: function ($scope, $element) {
+      $scope.username = $scope.spout.user_id;
+    }
   };
 });
