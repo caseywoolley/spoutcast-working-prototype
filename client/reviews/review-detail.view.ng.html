@@ -4,61 +4,51 @@
       <!-- {{review}} -->
       <!-- {{location}} -->
       <ion-item ng-show="review.video && review.poster" class="row-no-padding">
-      <!-- <ion-item class="row-no-padding"> -->
-      <h3>Edit Review</h3>
-      <!-- <div relink-event="reload-video"> -->
+      <h3>Review Preview</h3>
         <spout-box
         ng-if="review.active" 
         spout="review"
-        video="awsBucket + review.owner + '/' + review.video + '.mov'"
-        poster="awsBucket + review.owner + '/' + review.video + '.jpg'"
+        video="awsBucket + review.user_id + '/' + review._id + '.mov'"
+        poster="awsBucket + review.user_id + '/' + review._id + '.jpg'"
         remove="remove">
         </spout-box>
         <spout-box
-        spout="review"
         ng-if="!review.active"
+        spout="review"
         video="localPath + review._id + '.mov'"
         poster="localPath + review._id + '.jpg'"
         remove="remove">
         </spout-box>
-      <!-- </div> -->
       </ion-item>
 
-      <ion-item ng-if="review.video" class="padding">
+      <ion-item ng-if="review.video && review.poster" class="padding">
         <!-- TODO: add star selector input -->
-        <input class="full-width" type="text" placeholder="Title (Optional)" ng-model="newSpout.title" />
+        <input class="full-width" type="text" placeholder="Title (Optional)" ng-model="review.title" ng-blur="update(review._id, {title: review.title})" />
       </ion-item>
 
       <ion-item class="item-borderless">
         <h2>{{location.name}}</h2>
         <p>{{location.formatted_address}}</p>
-        <button ng-if="review.video" class="button button-block button-calm" ng-click="publish(review)">Post Review</button>
         <button ng-if="!review.video" class="button button-block button-assertive" ng-click="recordVideo()">Record Your Review</button>
+        <button ng-if="review.video && review.poster && !review.active" class="button button-block button-calm" ng-click="publish(review)">Post Review</button>
       </ion-item>
 
+      <ion-item ng-if="uploading" class="spinner item-borderless">
+        <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
+      </ion-item>
       
-    
-      <ion-item ng-hide="true">
-        <button class="button button-block button-calm" ng-click="reloadVideo()">Reload Video</button>
-        <button class="button button-block button-calm" ng-click="setVideo()">Set Video</button>
-        <button class="button button-block button-assertive" ng-click="getThumbnail()">Thumnail</button>
-        Canvas
+      <ion-item ng-hide="true" class="thumbnail-generator">
         <div><canvas id="canvas"></canvas></div>
-        Hidden Videos
         <div  ng-if="review.video && !review.poster" class="video-container">
           <video 
           after-render="getThumbnail"
           id="{{review._id + 'hidden'}}"
           ng-src="{{localPath + review._id + '.mov' + '#t=0.01'}}" 
           type="video/quicktime">
-            Your browser does not support HTML5 video.
           </video>
         </div>
       </ion-item>
 
-      <ion-item ng-if="uploading" class="spinner item-borderless">
-        <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
-      </ion-item>
     </ion-list>
 
   </ion-content>

@@ -11,10 +11,11 @@
 <div class="item item-avatar" href="#">
 	<img src="http://vignette2.wikia.nocookie.net/creepypasta/images/3/38/Avatar-blank.jpg/revision/latest?cb=20130607025329">
 	<h2>{{ spout.title || 'Review by' }}</h2>
-	<p>{{username}}</p>
+	<p>{{username}}</p><span ng-if="spout.active"> Active review</span>
+
 </div>
-<div class="spout-details padding">
+<!-- <div class="spout-details padding"> -->
 	<!-- <button ng-click="remove(spout)">Delete</button> -->
-	{{ spout.title }}
+	<!-- {{ spout.title }} -->
 	<!-- <pre>{{spout}}</pre> -->
-</div>
+<!-- </div> -->

@@ -1,6 +1,6 @@
 'use strict'
 
-//http://stackoverflow.com/questions/21715256/angularjs-event-to-call-after-content-is-loaded
+//http://gsferreira.com/archive/2015/03/angularjs-after-render-directive/
 angular.module('spoutCastApp')
 .directive('afterRender', function ($timeout) {
         var def = {

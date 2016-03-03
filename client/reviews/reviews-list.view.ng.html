@@ -5,12 +5,12 @@
         <spout-box
         ng-if="review.active" 
         spout="review"
-        video="awsBucket + review.owner + '/' + review.video + '.mov'"
-        poster="awsBucket + review.owner + '/' + review.video + '.jpg'"
+        video="awsBucket + review.user_id + '/' + review._id + '.mov'"
+        poster="awsBucket + review.user_id + '/' + review._id + '.jpg'"
         remove="remove">
         </spout-box>
         <spout-box
-        ng-if="!review.active" 
+        ng-if="!review.active"
         spout="review"
         video="localPath + review._id + '.mov'"
         poster="localPath + review._id + '.jpg'"
