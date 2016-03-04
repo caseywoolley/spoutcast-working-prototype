@@ -1,9 +1,9 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('ReviewDetailCtrl', function($scope, $rootScope, $stateParams, $cordovaFile) {
+.controller('ReviewDetailCtrl', function($scope, $rootScope, $state, $stateParams, $cordovaFile, $meteor) {
   
-  $scope.awsBucket = Meteor.settings.public.AWSBucket;
+  $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
   $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");
   $scope.uploadThumb = new Slingshot.Upload("uploadToAmazonS3");
   $scope.uploading = false;
@@ -18,7 +18,7 @@ angular.module('spoutCastApp')
       return Locations.findOne({ _id: $scope.review.location_id }); 
     }
   });
-  
+
   $scope.subscribe('reviews');
   $scope.subscribe('locations');
 
@@ -173,10 +173,18 @@ angular.module('spoutCastApp')
   };
 
   $scope.remove = function(review) {
-    console.log(review);
-    //delete local
-    //delete aws
-    // Reviews.remove({_id:review._id});
+    if (review.video) {
+      if (review.active) {
+        $meteor.call('removeAWSMedia', review.user_id + '/' + $scope.vidFile);
+        $meteor.call('removeAWSMedia', review.user_id + '/' + $scope.thumbFile);
+      } else {
+        $scope.deleteFile($scope.mediaFolder, $scope.vidFile);
+        $scope.deleteFile($scope.mediaFolder, $scope.thumbFile);
+      }
+    }
+
+    Reviews.remove({_id:review._id});
+    $state.go('reviews-list');
   };
 
   

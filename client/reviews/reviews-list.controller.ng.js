@@ -3,7 +3,8 @@
 angular.module('spoutCastApp')
 .controller('ReviewsListCtrl', function($scope, $ionicScrollDelegate) {
 
-  $scope.awsBucket = Meteor.settings.public.AWSBucket;
+  $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
+  console.log($scope.awsBucket)
 
   if (Meteor.isCordova) {
     $scope.localPath = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/';

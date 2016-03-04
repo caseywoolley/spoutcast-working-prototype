@@ -91,6 +91,8 @@ observe-sequence@1.0.8-cordova.5
 ordered-dict@1.0.4
 pbastowski:angular-babel@1.0.9
 pdiniz:canvas-to-blob@0.0.2
+peerlibrary:aws-sdk@2.2.37_1
+peerlibrary:blocking@0.5.2
 promise@0.5.2-cordova.5
 random@1.0.6-cordova.5
 rate-limit@1.0.1-cordova.5

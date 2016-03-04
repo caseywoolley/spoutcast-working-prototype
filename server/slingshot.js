@@ -1,7 +1,7 @@
 Slingshot.createDirective( "uploadToAmazonS3", Slingshot.S3Storage, {
   bucket: "spoutcast-contentdelivery-mobilehub-1722871942",
-  AWSAccessKeyId: Meteor.settings.private.AWSAccessKeyId,
-  AWSSecretAccessKey: Meteor.settings.private.AWSSecretAccessKey,
+  AWSAccessKeyId: Meteor.settings.private.amazonS3.AWSAccessKeyId,
+  AWSSecretAccessKey: Meteor.settings.private.amazonS3.AWSSecretAccessKey,
   region: "us-east-1",
   acl: "public-read",
   authorize: function () {

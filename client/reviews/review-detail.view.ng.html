@@ -38,6 +38,7 @@
         <p>{{location.formatted_address}}</p>
         <button ng-if="!review.video" class="button button-block button-assertive" ng-click="recordVideo()">Record Your Review</button>
         <button ng-if="review.video && review.poster && !review.active" class="button button-block button-calm" ng-click="publish(review)">Post Review</button>
+        <button class="button button-block button-assertive" ng-click="remove(review)">Delete</button>
       </ion-item>
 
       
