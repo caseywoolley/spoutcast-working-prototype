@@ -1,4 +1,11 @@
+
+
+<div class="spinner" ng-if="uploading">
+  <ion-spinner icon="ios" class="spinner-calm"></ion-spinner>
+</div>
+
 <ion-pane>
+
   <ion-content class="review-detail">
     <ion-list>
       <!-- {{review}} -->
@@ -23,23 +30,21 @@
 
       <ion-item ng-if="review.video && review.poster" class="padding">
         <!-- TODO: add star selector input -->
-        <input class="full-width" type="text" placeholder="Title (Optional)" ng-model="review.title" ng-blur="update(review._id, {title: review.title})" />
+        <input class="full-width" type="text" placeholder="Title (Optional)" ng-model="review.title" ng-blur="update(review, {title: review.title})" />
       </ion-item>
 
-      <ion-item class="item-borderless">
+      <ion-item class="">
         <h2>{{location.name}}</h2>
         <p>{{location.formatted_address}}</p>
         <button ng-if="!review.video" class="button button-block button-assertive" ng-click="recordVideo()">Record Your Review</button>
         <button ng-if="review.video && review.poster && !review.active" class="button button-block button-calm" ng-click="publish(review)">Post Review</button>
       </ion-item>
 
-      <ion-item ng-if="uploading" class="spinner item-borderless">
-        <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
-      </ion-item>
       
-      <ion-item ng-hide="true" class="thumbnail-generator">
+      
+      <ion-item class="thumbnail-generator" ng-hide="true">
         <div><canvas id="canvas"></canvas></div>
-        <div  ng-if="review.video && !review.poster" class="video-container">
+        <div ng-if="review.video && !review.poster" class="video-container">
           <video 
           after-render="getThumbnail"
           id="{{review._id + 'hidden'}}"

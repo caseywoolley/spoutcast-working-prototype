@@ -27,7 +27,7 @@ angular.module('spoutCastApp')
       return Locations.find({});
     },
     reviews: function() {
-      return Reviews.find({ user_id: Meteor.user()._id });
+      return Reviews.find({});
     }
   });
                   
@@ -40,6 +40,10 @@ angular.module('spoutCastApp')
   });
 
   $scope.getReview = function(location){
+    return _.findWhere($scope.reviews, {location_id: location._id, user_id: Meteor.user()._id}); 
+  };
+
+  $scope.hasReviews = function(location){
     return _.findWhere($scope.reviews, {location_id: location._id}); 
   };
 

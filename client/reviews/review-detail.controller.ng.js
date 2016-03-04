@@ -29,17 +29,6 @@ angular.module('spoutCastApp')
     $scope.thumbFile = $scope.review._id + '.jpg';
   }
 
-  $scope.checkFile = function(folder, file) {
-    var filePath = cordova.file.syncedDataDirectory + folder + '/';
-    $cordovaFile.checkFile(filePath , file)
-      .then(function(file){ 
-        console.log('File Found ', file);
-      }, 
-      function(err){ 
-        console.log('No file found');
-      });
-  };
-
   $scope.deleteFile = function(folder, file) {
     $cordovaFile.removeFile(folder , file)
       .then(function(file){ 
@@ -65,7 +54,7 @@ angular.module('spoutCastApp')
         .then(function (success) {
           console.log('thumbnail generated', success)
           $scope.review.poster = true;
-          $scope.update($scope.review._id, {poster: true});
+          $scope.update($scope.review, {poster: true});
         }, function (error) {
           console.log('error', error)
         });
@@ -73,145 +62,122 @@ angular.module('spoutCastApp')
     };
   };
 
-  var getBlobURL = function(url, mime, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("get", url);
-    xhr.responseType = "arraybuffer";
-
-    xhr.addEventListener("load", function() {
-      var arrayBufferView = new Uint8Array(this.response);
-      var blob = new Blob([arrayBufferView], {
-        type: mime
-      });
-      var url = window.URL.createObjectURL(blob);
-
-      callback(url, blob);
-    });
-    xhr.send();
-  };
-
   var captureError = function(error) {
     navigator.notification.alert('ERROR:' + error.message, null, "Capture Error");
   };
 
-    var captureSuccess = function(mediaFiles) {
-      console.log(mediaFiles[0]);
-      var path = '/local-filesystem' + mediaFiles[0].fullPath;
+  var captureSuccess = function(mediaFiles) {
+    console.log(mediaFiles[0]);
+    //move captured video 
+    var fromPath = 'file://' + mediaFiles[0].fullPath.split("/").slice(0, -1).join('/');
+    var toPath = cordova.file.syncedDataDirectory + 'media/';
+    $cordovaFile.createDir(cordova.file.syncedDataDirectory, 'media', false)
+      .then(function(dir){ console.log('Created media directory ', dir);}, 
+            function(err){ console.log('Directory already created');});
 
-      //move captured video 
-      var fromPath = 'file://' + mediaFiles[0].fullPath.split("/").slice(0, -1).join('/');
-      var toPath = cordova.file.syncedDataDirectory + 'media/';
-      $cordovaFile.createDir(cordova.file.syncedDataDirectory, 'media', false)
-        .then(function(dir){ console.log('Created media directory ', dir);}, 
-              function(err){ console.log('Directory already exists');});
-
-      $cordovaFile.moveFile(fromPath, mediaFiles[0].name, toPath, $scope.review._id + '.mov')
-        .then(function(movedFile){
-          console.log('movedFile', movedFile);
-          path = cordova.file.syncedDataDirectory + 'media/' + movedFile.name;
-          console.log('review',$scope.review)
-          
-          $scope.review.video = true;
-          $scope.update($scope.review._id, {video: true});
-          // $scope.getThumbnail();
-        }, function(err){
-          console.log('err', err);
-        });
-
-        console.log('moved path', path)
-
-    };
-
-    $scope.makeBlob = function() {
-
-    };
-
-    var uploadSuccess = function(){
-      console.log('upload success!')
-
-      $scope.review.active = true;
-      $scope.update($scope.review._id, {active: true});
-      $scope.uploading = false;
-      $scope.deleteFile($scope.mediaFolder, $scope.vidFile);
-      $scope.deleteFile($scope.mediaFolder, $scope.thumbFile);
-    };
-
-    $scope.publish = function(){
-      $scope.uploading = true;
-      
-      var vidUploaded = false;
-      var thumbUploaded = false;
-
-      //upload thumbnail
-      $cordovaFile.readAsArrayBuffer($scope.mediaFolder, $scope.thumbFile)
-      .then(function (arraybuffer) {
-        var blob = new Blob([new Uint8Array(arraybuffer)], {type: 'image/jpeg'});
-        blob.name = $scope.thumbFile;
-
-        $scope.uploadThumb.send(blob, function(error, downloadUrl) { 
-          if (error) {
-            $scope.uploading = false;
-            console.error('Error uploading', $scope.uploader.xhr.response);
-            //TODO: add error popup
-          } else {
-            console.log(downloadUrl)  
-            thumbUploaded = true;
-            if (vidUploaded) { uploadSuccess(); }
-          }
-        });
-      }, function (error) {
-        console.log(error)
+    $cordovaFile.moveFile(fromPath, mediaFiles[0].name, toPath, $scope.vidFile)
+      .then(function(movedFile){
+        $scope.review.video = true;
+        $scope.update($scope.review, {video: true});
+      }, function(err){
+        console.log('Error moving file:', err);
       });
+  };
 
-      //upload video
-      $cordovaFile.readAsArrayBuffer($scope.mediaFolder, $scope.vidFile)
-      .then(function (arraybuffer) {
-        var blob = new Blob([new Uint8Array(arraybuffer)], {type: 'video/quicktime'});
-        blob.name = $scope.vidFile;
 
-        $scope.uploader.send(blob, function(error, downloadUrl) { 
-          if (error) {
-            $scope.uploading = false;
-            console.error('Error uploading', $scope.uploader.xhr.response);
-            //TODO: add error popup
-          } else {
-            console.log(downloadUrl)  
-            vidUploaded = true;
-            if (thumbUploaded) { uploadSuccess(); }
-          }
-        });
+  var uploadSuccess = function(){
+    console.log('upload success!')
 
-      }, function (error) {
-        console.log(error)
-      });
-    };
+    $scope.review.active = true;
+    $scope.update($scope.review, {active: true});
+    $scope.uploading = false;
+    $scope.deleteFile($scope.mediaFolder, $scope.vidFile);
+    $scope.deleteFile($scope.mediaFolder, $scope.thumbFile);
+  };
 
-    $scope.recordVideo = function() {
-      if (Meteor.user()) {
-        if (Meteor.isCordova) {
-          console.log('using mobile device');
-          navigator.device.capture.captureVideo(captureSuccess, captureError, {
-            limit: 1,
-            quality: 1,
-            duration: 15
-          });
+  $scope.publish = function(){
+    $scope.uploading = true;
+    
+    var vidUploaded = false;
+    var thumbUploaded = false;
+
+    //upload thumbnail
+    $cordovaFile.readAsArrayBuffer($scope.mediaFolder, $scope.thumbFile)
+    .then(function (arraybuffer) {
+      var blob = new Blob([new Uint8Array(arraybuffer)], {type: 'image/jpeg'});
+      blob.name = $scope.thumbFile;
+
+      $scope.uploadThumb.send(blob, function(error, downloadUrl) { 
+        if (error) {
+          $scope.uploading = false;
+          console.error('Error uploading', $scope.uploader.xhr.response);
+          //TODO: add error popup
         } else {
-          console.log('using a browser');
-          MeteorCamera.getPicture({}, function(data) {
-            console.log(data)
-          });
+          console.log(downloadUrl)  
+          thumbUploaded = true;
+          if (vidUploaded) { uploadSuccess(); }
         }
+      });
+    }, function (error) {
+      console.log(error)
+    });
+
+    //upload video
+    $cordovaFile.readAsArrayBuffer($scope.mediaFolder, $scope.vidFile)
+    .then(function (arraybuffer) {
+      var blob = new Blob([new Uint8Array(arraybuffer)], {type: 'video/quicktime'});
+      blob.name = $scope.vidFile;
+
+      $scope.uploader.send(blob, function(error, downloadUrl) { 
+        if (error) {
+          $scope.uploading = false;
+          console.error('Error uploading', $scope.uploader.xhr.response);
+          //TODO: add error popup
+        } else {
+          console.log(downloadUrl)  
+          vidUploaded = true;
+          if (thumbUploaded) { uploadSuccess(); }
+        }
+      });
+
+    }, function (error) {
+      console.log(error)
+    });
+  };
+
+  $scope.recordVideo = function() {
+    if (Meteor.user()) {
+      if (Meteor.isCordova) {
+        console.log('using mobile device');
+        navigator.device.capture.captureVideo(captureSuccess, captureError, {
+          limit: 1,
+          quality: 1,
+          duration: 15
+        });
       } else {
-        console.log('not logged in');
+        console.log('using a browser');
+        MeteorCamera.getPicture({}, function(data) {
+          console.log(data)
+        });
       }
-    };
+    } else {
+      console.log('not logged in');
+    }
+  };
 
 
-    $scope.update = function(id, updates) {
-      if ($scope.review.user_id === Meteor.userId()) {
-        Reviews.update({_id: id }, {$set: updates});
-      }
-    };
+  $scope.update = function(review, updates) {
+    if ($scope.review.user_id === Meteor.userId()) {
+      Reviews.update({_id: review._id }, {$set: updates});
+    }
+  };
+
+  $scope.remove = function(review) {
+    console.log(review);
+    //delete local
+    //delete aws
+    // Reviews.remove({_id:review._id});
+  };
 
   
 });

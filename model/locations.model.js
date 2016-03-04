@@ -2,12 +2,14 @@ Locations = new Mongo.Collection('locations');
 
 Locations.allow({
   insert: function(userId, location) {
-    return true;
+    return !!userId;
   },
   update: function(userId, location, fields, modifier) {
-    return true;
+  	//TODO: deny attempts to modify geo-location
+    return !!userId;
   },
   remove: function(userId, location) {
-    return true;
+    return !!userId;
   }
 });
+

@@ -11,7 +11,7 @@ angular.module('spoutCastApp')
 
   $scope.helpers({
     reviews: function() {
-      return Reviews.find({});
+      return Reviews.find({active: true});
     }
   });
                   

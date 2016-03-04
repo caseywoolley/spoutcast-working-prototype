@@ -2,12 +2,13 @@ Reviews = new Mongo.Collection('reviews');
 
 Reviews.allow({
   insert: function(userId, review) {
-    return true;
+    return !!userId;
   },
   update: function(userId, review, fields, modifier) {
-    return true;
+  	//TODO: deny attempts to modify geo-location & associated location
+    return !!userId;
   },
   remove: function(userId, review) {
-    return true;
+    return !!userId;
   }
 });
