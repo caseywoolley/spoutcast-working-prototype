@@ -1,19 +1,19 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.directive('spoutBox', function() {
+.directive('reviewCard', function() {
   return {
   	//transclude: 'element',
     restrict: 'AE',
     scope: {
-    	spout: '=',
+    	review: '=',
     	'video': '=',
     	'poster': '=',
       'remove': '='
     },
-    templateUrl: 'client/components/spout-box/spout-box.view.ng.html',
+    templateUrl: 'client/components/review-card/review-card.view.ng.html',
     controller: function ($scope, $element) {
-      $scope.username = $scope.spout.user_id;
+      $scope.username = $scope.review.user_id;
     }
   };
 });

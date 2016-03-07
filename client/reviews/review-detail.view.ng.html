@@ -12,20 +12,20 @@
       <!-- {{location}} -->
       <ion-item ng-show="review.video && review.poster" class="row-no-padding">
       <h3>Review Preview</h3>
-        <spout-box
+        <review-card
         ng-if="review.active" 
-        spout="review"
+        review="review"
         video="awsBucket + review.user_id + '/' + review._id + '.mov'"
         poster="awsBucket + review.user_id + '/' + review._id + '.jpg'"
         remove="remove">
-        </spout-box>
-        <spout-box
+        </review-card>
+        <review-card
         ng-if="!review.active"
-        spout="review"
+        review="review"
         video="localPath + review._id + '.mov'"
         poster="localPath + review._id + '.jpg'"
         remove="remove">
-        </spout-box>
+        </review-card>
       </ion-item>
 
       <ion-item ng-if="review.video && review.poster" class="padding">

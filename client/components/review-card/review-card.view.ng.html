@@ -1,16 +1,16 @@
 <div class="item item-avatar" href="#">
 	<img src="http://vignette2.wikia.nocookie.net/creepypasta/images/3/38/Avatar-blank.jpg/revision/latest?cb=20130607025329">
-	<h2>{{ spout.title || 'Review by' }}</h2>
+	<h2>{{ review.title || 'Review by' }}</h2>
 	<p>{{username}}</p>
 </div>
 <div class="video-container">
 <!-- 	<header>
     <h1>
-      {{ spout.title || 'Review by' }}
+      {{ review.title || 'Review by' }}
     </h1>
   </header> -->
 	<video 
-	id="{{spout._id}}"
+	id="{{review._id}}"
 	ng-src="{{video}}" 
 	poster="{{poster}}" 
 	play-toggle
@@ -20,7 +20,7 @@
 	<!-- <div class="gradient"></div> -->
 </div>
 <div class="item vid-details" href="#">
-	<h2>{{ spout.title || 'Review by' }}</h2>
+	<h2>{{ review.title || 'Review by' }}</h2>
 	<p>{{username}}</p>
 </div>
 	<div class="item item-divider rank-votes center">
@@ -28,7 +28,7 @@
 		<i class="icon ion-arrow-down-b"></i>
 		<i class="icon ion-navicon"></i>
 	</div>
-<!-- <div class="spout-details padding"> -->
-	<!-- <button ng-click="remove(spout)">Delete</button> -->
-	<!-- <pre>{{spout}}</pre> -->
+<!-- <div class="review-details padding"> -->
+	<!-- <button ng-click="remove(review)">Delete</button> -->
+	<!-- <pre>{{review}}</pre> -->
 <!-- </div> -->

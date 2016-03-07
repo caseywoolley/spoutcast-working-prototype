@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, GeoService, ReviewService) {
+.controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
 
   $scope.newLocation = {};
   $scope.user = Meteor.user()
@@ -12,7 +12,7 @@ angular.module('spoutCastApp')
       $scope.latLng = Geolocation.latLng();
       $scope.newLocation.latLng = $scope.latLng;
 
-      GeoService.reverseGeo($scope.latLng, function(data){
+      MapService.reverseGeo($scope.latLng, function(data){
         $scope.$apply(function(){
           $scope.newLocation.formatted_address = data.address;
         });
