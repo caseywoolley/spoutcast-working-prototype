@@ -5,15 +5,19 @@ angular.module('spoutCastApp')
 
   $scope.newLocation = {};
   $scope.user = Meteor.user()
+  var geocoder = new google.maps.Geocoder();
+
 
   $scope.autorun(function() {
       $scope.latLng = Geolocation.latLng();
       $scope.newLocation.latLng = $scope.latLng;
-      GeoService.getAddress($scope.latLng, function(data){
+
+      GeoService.reverseGeo($scope.latLng, function(data){
         $scope.$apply(function(){
           $scope.newLocation.formatted_address = data.address;
         });
-      }); 
+      });
+
   });
 
   $ionicModal.fromTemplateUrl('templates/add-location.html', {
@@ -39,8 +43,15 @@ angular.module('spoutCastApp')
     return [{}, $scope.getReactively('search')];
   });
 
+
+  $scope.myLocation = function() {
+    return Session.get('location');
+  };
+
   $scope.getReview = function(location){
-    return _.findWhere($scope.reviews, {location_id: location._id, user_id: Meteor.user()._id}); 
+    if (Meteor.user()) {
+      return _.findWhere($scope.reviews, {location_id: location._id, user_id: Meteor.user()._id}); 
+    }
   };
 
   $scope.hasReviews = function(location){
@@ -62,6 +73,7 @@ angular.module('spoutCastApp')
   };
 
   $scope.save = function() {
+    //TODO: if not logged in send to login page
     // if ($scope.form.$valid) {
       var latLng = $scope.newLocation.latLng;
       $scope.newLocation.latLng = {};
