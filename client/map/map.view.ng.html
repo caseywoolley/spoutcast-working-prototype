@@ -1,7 +1,8 @@
 <ion-pane class="pane">
 		<div class="angular-google-map-container">	
-	  	<ui-gmap-google-map center="map.center" zoom="map.zoom">
-	  		<ui-gmap-markers models="locations" coords="'coords'" click="onClicked" fit="true" idKey="'_id'" doRebuildAll="true"></ui-gmap-markers>
+	  	<ui-gmap-google-map center="map.center" zoom="map.zoom" data-tap-disabled=”true”>
+	  		<ui-gmap-circle center="map.circle.center" radius="map.circle.radius" stroke="{ weight: 0 }" fill="{color: '#1E9BE8', opacity: 0.1}"></ui-gmap-circle> 
+	  		<ui-gmap-markers models="locations" coords="'coords'" events="map.markerEvents" fit="true" idKey="'_id'" doRebuildAll="true"></ui-gmap-markers>
 	  	</ui-gmap-google-map>
 		</div>
 </ion-pane>

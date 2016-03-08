@@ -2,7 +2,7 @@
   <ion-content class="locations-list">
 
     <h3 class="center">Near You</h3>
-    <button class="button button-block button-calm" ng-click="modal.show()">Add A Location</button>
+    <button class="button button-block button-calm" ng-click="addLocation()">Add A Location</button>
     <ion-list class="list" can-swipe="true">
       <!-- <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}"> -->
 
@@ -11,10 +11,10 @@
         <p>{{ location.formatted_address }}</p>
         <i ng-if="!getReview(location)" class="badge badge-calm">Check In</i>
         <i ng-if="getReview(location) && !getReview(location).video" class="badge badge-balanced">Review</i>
-        <i ng-if="getReview(location) && !getReview(location).active && getReview(location).video" class="badge badge-royal">Draft</i>
+        <i ng-if="getReview(location) && !getReview(location).active && getReview(location).video" class="badge badge-royal">Post</i>
         <i ng-if="getReview(location).active" class="badge badge-positive">Reviewed</i>
         
-        <ion-option-button ng-if="!hasReviews(location)" class="button-assertive">Delete</ion-option-button>
+        <ion-option-button ng-if="!hasReviews(location)" class="button-assertive" ng-click="remove(location)">Delete</ion-option-button>
         <ion-option-button class="button-positive" ng-click="editLocation(location)">Edit</ion-option-button>
       </ion-item>
       <!-- <div ng-repeat="location in $parent.locations">
@@ -27,8 +27,8 @@
       </div> -->
     </ion-list>
     <!-- {{reviews}} -->
-    {{myLocation()}}
-    {{newLocation}}
+    {{latLng}}
+    {{myAddress()}}
   </ion-content>
 </ion-pane>
 

@@ -4,21 +4,10 @@ angular.module('spoutCastApp')
 .controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
 
   $scope.newLocation = {};
-  $scope.user = Meteor.user()
-  var geocoder = new google.maps.Geocoder();
-
 
   $scope.autorun(function() {
-      $scope.latLng = Geolocation.latLng() || {lat: 30.182431, lng: -94.023635};
-      $scope.newLocation.latLng = $scope.latLng;
-      MapService.reverseGeo($scope.latLng, function(data){
-        $scope.$apply(function(){
-          $scope.newLocation.formatted_address = data.address;
-        });
-      });
-
+    $scope.latLng = MapService.updateLocation();
   });
-
 
   $ionicModal.fromTemplateUrl('templates/add-location.html', {
     scope: $scope
@@ -27,6 +16,9 @@ angular.module('spoutCastApp')
   });
     
   $scope.helpers({
+    // locations: function(){
+    //   return Locations.find({});
+    // },
     locations: function() {
       return Locations.find({
         loc: {
@@ -35,7 +27,7 @@ angular.module('spoutCastApp')
               type: 'Point', 
               coordinates: [$scope.getReactively('latLng.lng'), $scope.getReactively('latLng.lat')],
             },
-            $maxDistance: 100
+            $maxDistance: MapService.reviewRadius
           }
         }
       });
@@ -53,22 +45,27 @@ angular.module('spoutCastApp')
     return [{}, $scope.getReactively('search')];
   });
 
-  // $scope.locations.forEach(function(location) {
-  //   Locations.update({ _id: location._id}, {$set: {loc: { type: "Point", coordinates:[location.latLng.lng, location.latLng.lat]}}});
-  //     //Locations.update({ _id: location._id}, {$unset: {test: ''}});
-  // });
+  //TODO: insert data at creation
+  $scope.locations.forEach(function(location) {
+    Locations.update({ _id: location._id}, {$set: {loc: { type: "Point", coordinates:[location.latLng.lng, location.latLng.lat]}}});
+      //Locations.update({ _id: location._id}, {$unset: {test: ''}});
+  });
   
-  // $scope.reviews.forEach(function(review) {
-  //   if (review.latLng){
+  
+  $scope.addLocation = function(){
+    $scope.newLocation.latLng = $scope.latLng;
+    $scope.modal.show();
+  };
 
-  //     Reviews.update({ _id: review._id}, {$set: {loc: { type: "Point", coordinates:[review.latLng.lng, review.latLng.lat]}}});
-  //   }
-  //     //Locations.update({ _id: reviews._id}, {$unset: {test: ''}});
-  // });
+  $scope.myAddress = function() {
+    return Session.get('address');
+  };
 
-
-  $scope.myLocation = function() {
-    return Session.get('location');
+  $scope.newLocationAddress = function(latLng){
+    MapService.reverseGeo(latLng, function(loc){
+      $scope.newLocation.formatted_address = loc.address;
+      return loc.address;
+    });
   };
 
   $scope.getReview = function(location){

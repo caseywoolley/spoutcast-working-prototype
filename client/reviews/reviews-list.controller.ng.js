@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('ReviewsListCtrl', function($scope, $ionicScrollDelegate) {
+.controller('ReviewsListCtrl', function($scope, $ionicScrollDelegate, MapService) {
 
   $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
   console.log($scope.awsBucket)
@@ -11,7 +11,7 @@ angular.module('spoutCastApp')
   }
 
   $scope.autorun(function() {
-      $scope.latLng = Geolocation.latLng() || {lat: 0, lng: 0};
+    $scope.latLng = MapService.updateLocation();
   });
 
   $scope.helpers({
@@ -25,16 +25,26 @@ angular.module('spoutCastApp')
             $geometry: {
               type: 'Point', 
               coordinates: [$scope.getReactively('latLng.lng'), $scope.getReactively('latLng.lat')],
-            }
+            },
+            $maxDistance: 1000 * 1609 // 1000 miles
           }
         }
       });
     },
   });
-                  
+
   $scope.subscribe('reviews', function() {
     return [{}, $scope.getReactively('latLng')];
   });
+
+  //TODO: add data at creation
+  $scope.reviews.forEach(function(review) {
+    if (review.latLng){
+
+      Reviews.update({ _id: review._id}, {$set: {loc: { type: "Point", coordinates:[review.latLng.lng, review.latLng.lat]}}});
+    }
+      //Locations.update({ _id: reviews._id}, {$unset: {test: ''}});
+  });             
 
   $scope.save = function() {
     if ($scope.form.$valid) {

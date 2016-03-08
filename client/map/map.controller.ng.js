@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('spoutCastApp')
-.controller('MapCtrl', function($scope) {
+.controller('MapCtrl', function($scope, MapService) {
 
   $scope.viewName = 'Map';
 
@@ -16,6 +16,8 @@ angular.module('spoutCastApp')
   });
 
   $scope.autorun(function() {
+    MapService.updateLocation();
+    $scope.map = MapService.map;
     _.each($scope.locations, function(location){
       location.coords = {};
       location.coords.latitude = location.latLng.lat;
@@ -23,14 +25,6 @@ angular.module('spoutCastApp')
     });
   });
 
-  $scope.map = {
-  	center: {
-  		latitude: 30,
-  		longitude: -94
-  	},
-  	zoom: 10,
-  	onClicked: function(){ console.log('clicked');}
-  };
   console.log('locations',$scope.locations)
   // console.log($scope.currentLocation)
 });
