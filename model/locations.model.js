@@ -13,3 +13,7 @@ Locations.allow({
   }
 });
 
+if (Meteor.isServer) {
+  Locations._ensureIndex({'locations.loc.coordinates':'2dsphere'});
+};
+

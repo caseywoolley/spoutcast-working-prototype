@@ -9,9 +9,8 @@ angular.module('spoutCastApp')
 
 
   $scope.autorun(function() {
-      $scope.latLng = Geolocation.latLng();
+      $scope.latLng = Geolocation.latLng() || {lat: 30.182431, lng: -94.023635};
       $scope.newLocation.latLng = $scope.latLng;
-
       MapService.reverseGeo($scope.latLng, function(data){
         $scope.$apply(function(){
           $scope.newLocation.formatted_address = data.address;
@@ -19,6 +18,7 @@ angular.module('spoutCastApp')
       });
 
   });
+
 
   $ionicModal.fromTemplateUrl('templates/add-location.html', {
     scope: $scope
@@ -28,7 +28,17 @@ angular.module('spoutCastApp')
     
   $scope.helpers({
     locations: function() {
-      return Locations.find({});
+      return Locations.find({
+        loc: {
+          $near: {
+            $geometry: {
+              type: 'Point', 
+              coordinates: [$scope.getReactively('latLng.lng'), $scope.getReactively('latLng.lat')],
+            },
+            $maxDistance: 100
+          }
+        }
+      });
     },
     reviews: function() {
       return Reviews.find({});
@@ -36,12 +46,25 @@ angular.module('spoutCastApp')
   });
                   
   $scope.subscribe('locations', function() {
-    return [{}, $scope.getReactively('search')];
+    return [{}, $scope.getReactively('latLng')];
   });
 
   $scope.subscribe('reviews', function() {
     return [{}, $scope.getReactively('search')];
   });
+
+  // $scope.locations.forEach(function(location) {
+  //   Locations.update({ _id: location._id}, {$set: {loc: { type: "Point", coordinates:[location.latLng.lng, location.latLng.lat]}}});
+  //     //Locations.update({ _id: location._id}, {$unset: {test: ''}});
+  // });
+  
+  // $scope.reviews.forEach(function(review) {
+  //   if (review.latLng){
+
+  //     Reviews.update({ _id: review._id}, {$set: {loc: { type: "Point", coordinates:[review.latLng.lng, review.latLng.lat]}}});
+  //   }
+  //     //Locations.update({ _id: reviews._id}, {$unset: {test: ''}});
+  // });
 
 
   $scope.myLocation = function() {
@@ -56,6 +79,11 @@ angular.module('spoutCastApp')
 
   $scope.hasReviews = function(location){
     return _.findWhere($scope.reviews, {location_id: location._id}); 
+  };
+
+  $scope.editLocation = function(location){
+    console.log(location)
+    $state.go('location-detail', {id: location._id});  
   };
 
   $scope.addReview = function(location){

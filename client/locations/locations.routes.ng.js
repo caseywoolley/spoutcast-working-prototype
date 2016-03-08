@@ -9,7 +9,7 @@ angular.module('spoutCastApp')
     controller: 'LocationsListCtrl'
   })
   .state('location-detail', {
-    url: '/locations/:locationId',
+    url: '/locations/:id',
     templateUrl: 'client/locations/location-detail.view.ng.html',
     controller: 'LocationDetailCtrl'
   });

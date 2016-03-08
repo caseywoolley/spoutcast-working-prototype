@@ -12,3 +12,7 @@ Reviews.allow({
     return !!userId;
   }
 });
+
+if (Meteor.isServer) {
+  Reviews._ensureIndex({'reviews.loc.coordinates':'2dsphere'});
+};

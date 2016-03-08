@@ -9,6 +9,8 @@ angular.module('spoutCastApp')
   $scope.uploading = false;
   $scope.uploaded = false;
 
+  
+
 
   $scope.helpers({
     review: function() {

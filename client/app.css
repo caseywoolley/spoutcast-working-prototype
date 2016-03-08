@@ -1,3 +1,13 @@
 ion-nav-view.has-header.has-footer.view-container {
   height: auto;
 }
+
+/** Overridding Ionic Defaults */
+/*h1, h2, h3, h4, h5, h6, p, .h1, .h2, .h3, .h4, .h5, .h6 .item, .item-divider{
+    color : #5B554F;
+
+    font-family: 'Times', sans-serif;
+    font-weight: 700;
+    font-size: 1.2em;
+    line-height: 1.5;
+}*/

@@ -5,11 +5,17 @@ angular.module('spoutCastApp')
   
   $scope.helpers({
     location: function() {
-      return Locations.findOne({ _id: $stateParams.locationId }); 
+      return Locations.findOne({ _id: $stateParams.id }); 
     }
   });
   
   $scope.subscribe('locations');
+
+  $scope.update = function(location, updates) {
+    updates = _.clone(location);
+    delete updates._id;
+    Locations.update({_id: location._id }, {$set: updates});
+  };
   
   $scope.save = function() {
     if($scope.form.$valid) {

@@ -10,14 +10,30 @@ angular.module('spoutCastApp')
     $scope.localPath = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/';
   }
 
+  $scope.autorun(function() {
+      $scope.latLng = Geolocation.latLng() || {lat: 0, lng: 0};
+  });
+
   $scope.helpers({
+    // reviews: function() {
+    //   return Reviews.find({active: true});
+    // }
     reviews: function() {
-      return Reviews.find({active: true});
-    }
+      return Reviews.find({
+        loc: {
+          $near: {
+            $geometry: {
+              type: 'Point', 
+              coordinates: [$scope.getReactively('latLng.lng'), $scope.getReactively('latLng.lat')],
+            }
+          }
+        }
+      });
+    },
   });
                   
   $scope.subscribe('reviews', function() {
-    return [{}, $scope.getReactively('search')];
+    return [{}, $scope.getReactively('latLng')];
   });
 
   $scope.save = function() {

@@ -3,19 +3,29 @@
 
     <h3 class="center">Near You</h3>
     <button class="button button-block button-calm" ng-click="modal.show()">Add A Location</button>
-    <ul class="list">
-      <div class="list">
-        <!-- <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}"> -->
-        <a class="item item-icon-right item-text-wrap" ng-repeat="location in $parent.locations" ng-click="addReview(location)" href="#">
-          <h2>{{ location.name }}</h2>
-          <p>{{ location.formatted_address }}</p>
-          <button ng-if="!hasReviews(location)" ng-click="remove(location)">Delete</button>
-          <i ng-if="!getReview(location)" class="badge badge-calm">Check In</i>
-          <i ng-if="getReview(location).active" class="badge badge-positive">Reviewed</i>
-          <i ng-if="getReview(location)" class="icon ion-ios-arrow-right"></i>
-        </a>
+    <ion-list class="list" can-swipe="true">
+      <!-- <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}"> -->
+
+      <ion-item class="item-icon-right item-text-wrap" ng-repeat="location in $parent.locations" ng-click="addReview(location)" href="#">
+        <h2>{{ location.name }}</h2>
+        <p>{{ location.formatted_address }}</p>
+        <i ng-if="!getReview(location)" class="badge badge-calm">Check In</i>
+        <i ng-if="getReview(location) && !getReview(location).video" class="badge badge-balanced">Review</i>
+        <i ng-if="getReview(location) && !getReview(location).active && getReview(location).video" class="badge badge-royal">Draft</i>
+        <i ng-if="getReview(location).active" class="badge badge-positive">Reviewed</i>
+        
+        <ion-option-button ng-if="!hasReviews(location)" class="button-assertive">Delete</ion-option-button>
+        <ion-option-button class="button-positive" ng-click="editLocation(location)">Edit</ion-option-button>
+      </ion-item>
+      <!-- <div ng-repeat="location in $parent.locations">
+      <div class="item item-button-right" >
+        <h2>{{ location.name }}</h2>
+        <p>{{ location.formatted_address }}</p>
+        <button class="button icon-left ion-gear-a location-button" ng-click="addReview(location)">Edit</button>
       </div>
-    </ul>
+      <div class="item item-divider">Check In</div>
+      </div> -->
+    </ion-list>
     <!-- {{reviews}} -->
     {{myLocation()}}
     {{newLocation}}
@@ -25,7 +35,8 @@
 <script id="templates/add-location.html" type="text/ng-template"> 
   <ion-modal-view>
 
-  <ion-header-bar class="bar bar-header item-input-inset">
+
+    <ion-header-bar class="bar bar-header item-input-inset">
 
       <div class="item-input-wrapper">
          <i class="icon ion-ios-search-strong placeholder-icon"></i>
