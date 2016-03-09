@@ -11,7 +11,8 @@
       <!-- <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}"> -->
 
       <ion-item class="item-icon-right item-text-wrap" ng-repeat="location in $parent.locations" ng-click="addReview(location)" href="#">
-        <h2>{{ location.name }}</h2>
+        <h2>{{ location.name }}</h2> 
+        <!-- <i class="icon ion-edit"></i> -->
         <p>{{ location.formatted_address }}</p>
         <i ng-if="!getReview(location)" class="badge badge-calm">Check In</i>
         <i ng-if="getReview(location) && !getReview(location).video" class="badge badge-balanced">Review</i>
