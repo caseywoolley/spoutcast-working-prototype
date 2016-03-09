@@ -1,4 +1,7 @@
-<ion-pane>
+<ion-view view-title="Reviews">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
   <ion-content class="reviews-list">
     <ion-list>
       <ion-item collection-repeat="review in $parent.reviews"  class="item-remove-animate row-no-padding">
@@ -23,4 +26,4 @@
       <p>Total number of reviews: {{ $parent.reviews.length }}</p>
     </ion-item>
   </ion-content>
-</ion-pane>
+</ion-view>

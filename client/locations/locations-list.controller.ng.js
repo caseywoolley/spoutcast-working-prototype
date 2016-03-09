@@ -1,8 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, $ionicHistory, MapService, ReviewService) {
-
+.controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
   $scope.newLocation = {};
 
   $scope.autorun(function() {
@@ -45,9 +44,9 @@ angular.module('spoutCastApp')
     return [{}, $scope.getReactively('search')];
   });
 
-  $scope.history = function() {
-    return JSON.stringify($ionicHistory.viewHistory(), null, 2);
-  };
+  // $scope.history = function() {
+  //   return JSON.stringify($ionicHistory.viewHistory(), null, 2);
+  // };
 
   //TODO: insert data at creation
   $scope.locations.forEach(function(location) {

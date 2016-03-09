@@ -2,7 +2,7 @@
 
 angular.module('spoutCastApp')
 .controller('ReviewsListCtrl', function($scope, $ionicScrollDelegate, MapService) {
-
+  // $ionicNavBarDelegate.showBackButton(false);
   $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
   console.log($scope.awsBucket)
 

@@ -8,7 +8,7 @@ angular.module('spoutCastApp')
   //   templateUrl: 'client/locations/locations-list.view.ng.html',
   //   controller: 'LocationsListCtrl'
   // })
-  .state('tabs.location-list', {
+  .state('tabs.locations-list', {
     url: '/locations',
     views: {
       'tabs': {

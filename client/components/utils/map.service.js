@@ -24,7 +24,7 @@ angular.module('spoutCastApp')
     markerEvents: {
       click: function(){ 
         console.log('clicked');
-        $state.go('reviews-list');
+        $state.go('tabs.reviews-list');
       }
     }
   };
