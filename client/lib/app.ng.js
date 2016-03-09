@@ -13,7 +13,18 @@ angular.module('spoutCastApp', [
    'self',
    'https://spoutcast-contentdelivery-mobilehub-1722871942.s3.amazonaws.com/**'
   ]);
- });
+ })
+.run(function($ionicPlatform) {
+    $ionicPlatform.ready(function() {
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+    });
+  });
 
 onReady = function() {
   angular.bootstrap(document, ['spoutCastApp']);

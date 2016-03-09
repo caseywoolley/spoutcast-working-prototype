@@ -3,9 +3,18 @@
 angular.module('spoutCastApp')
 .config(function($stateProvider) {
   $stateProvider
-  .state('map', {
+  // .state('map', {
+  //   url: '/map',
+  //   templateUrl: 'client/map/map.view.ng.html',
+  //   controller: 'MapCtrl'
+  // })
+  .state('tabs.map', {
     url: '/map',
-    templateUrl: 'client/map/map.view.ng.html',
-    controller: 'MapCtrl'
+    views: {
+      'tabs': {
+        templateUrl: 'client/map/map.view.ng.html',
+        controller : 'MapCtrl'
+      }
+    }
   });
 });

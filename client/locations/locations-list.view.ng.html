@@ -1,7 +1,11 @@
-<ion-pane>
+
+<ion-view view-title="Locations">
+  <ion-nav-buttons side="left">
+        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+      </ion-nav-buttons>
   <ion-content class="locations-list">
 
-    <h3 class="center">Near You</h3>
+    <!-- <h3 class="center">Near You</h3> -->
     <button class="button button-block button-calm" ng-click="addLocation()">Add A Location</button>
     <ion-list class="list" can-swipe="true">
       <!-- <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}"> -->
@@ -29,8 +33,10 @@
     <!-- {{reviews}} -->
     {{latLng}}
     {{myAddress()}}
+    {{history()}}
   </ion-content>
-</ion-pane>
+</ion-view>
+
 
 <script id="templates/add-location.html" type="text/ng-template"> 
   <ion-modal-view>

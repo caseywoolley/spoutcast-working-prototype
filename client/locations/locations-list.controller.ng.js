@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
+.controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, $ionicHistory, MapService, ReviewService) {
 
   $scope.newLocation = {};
 
@@ -45,6 +45,10 @@ angular.module('spoutCastApp')
     return [{}, $scope.getReactively('search')];
   });
 
+  $scope.history = function() {
+    return JSON.stringify($ionicHistory.viewHistory(), null, 2);
+  };
+
   //TODO: insert data at creation
   $scope.locations.forEach(function(location) {
     Locations.update({ _id: location._id}, {$set: {loc: { type: "Point", coordinates:[location.latLng.lng, location.latLng.lat]}}});
@@ -80,13 +84,13 @@ angular.module('spoutCastApp')
 
   $scope.editLocation = function(location){
     console.log(location)
-    $state.go('location-detail', {id: location._id});  
+    $state.go('tabs.location-detail', {id: location._id});  
   };
 
   $scope.addReview = function(location){
     var existingReview = $scope.getReview(location);
     if (existingReview) {
-      $state.go('review-detail', {id: existingReview._id});  
+      $state.go('tabs.review-detail', {id: existingReview._id});  
     } else { 
       var review = {};
       review.user_id = Meteor.user()._id;
