@@ -1,34 +1,56 @@
-<div class="item item-avatar" href="#">
-	<img src="http://vignette2.wikia.nocookie.net/creepypasta/images/3/38/Avatar-blank.jpg/revision/latest?cb=20130607025329">
-	<h2>{{ review.title || 'Review by' }}</h2>
-	<p>{{username}}</p>
+<div class="item item-avatar item-icon-right">
+	<img ng-src="{{(avatar)}}">
+	<h2>{{ username || 'Spoutcast user'}}</h2>
+	<p>{{review.published || '11/25/15'}}</p>
+		
 </div>
+
 <div class="video-container">
-<!-- 	<header>
+	<header>
     <h1>
-      {{ review.title || 'Review by' }}
+      <i ng-class="review.rating >= 1 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+      <i ng-class="review.rating >= 2 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+      <i ng-class="review.rating >= 3 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+      <i ng-class="review.rating >= 4 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+      <i ng-class="review.rating >= 5 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
     </h1>
-  </header> -->
+  </header>
+	<div class="gradient"></div>
 	<video 
 	id="{{review._id}}"
 	ng-src="{{video}}" 
 	poster="{{poster}}" 
 	play-toggle
+	preload="none"
 	type="video/quicktime">
 		Your browser does not support HTML5 video.
 	</video>
-	<!-- <div class="gradient"></div> -->
 </div>
-<div class="item vid-details" href="#">
-	<h2>{{ review.title || 'Review by' }}</h2>
-	<p>{{username}}</p>
+
+<!-- <div class="item vid-details item-text-wrap item-borderless">
+</div> -->
+<div class="item vid-details item-icon-right item-text-wrap item-borderless">
+	<h2>{{ review.title || 'Review of Location Name by Spoutcast user'}}</h2>
+	<p>{{ location.name }}</p>
+	<p>{{ location.formatted_address }}</p>
+	<i class="icon ion-more" ng-click="editReview(review)"></i>
 </div>
-	<div class="item item-divider rank-votes center">
+	<!-- <i class="icon ion-thumbsup" ng-click=""></i> -->
+	<!-- <i class="icon ion-thumbsdown" ng-click=""></i> -->
+	<!-- <div class="rank-votes center"> -->
+	<!-- </div> -->
+<!-- <div class="item">
+	<h2>{{ review.title }}</h2>
+</div> -->
+
+<!-- <div class="item item-divider rank-votes center">
+</div> -->
+	<!-- <div class="item item-divider rank-votes center">
 		<i class="icon ion-arrow-up-b"></i>
 		<i class="icon ion-arrow-down-b"></i>
 		<i class="icon ion-navicon"></i>
-	</div>
-<div class="review-details padding">
+	</div> -->
+<!-- <div class="review-details padding">
 	<button ng-click="remove(review)">Delete</button>
-	<!-- <pre>{{review}}</pre> -->
-</div>
+	<pre>{{review}}</pre>
+</div> -->

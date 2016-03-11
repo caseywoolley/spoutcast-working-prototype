@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.factory('ReviewService', function() {
+.service('ReviewService', function() {
 
     var currentReview = {};
 

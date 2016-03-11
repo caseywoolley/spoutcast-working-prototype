@@ -3,10 +3,12 @@
   <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
       </ion-nav-buttons>
-  <ion-content class="locations-list">
+  <ion-content class="locations-list has-header has-footer">
 
     <!-- <h3 class="center">Near You</h3> -->
-    <button class="button button-block button-calm" ng-click="addLocation()">Add A Location</button>
+    <div class="item">
+      <button class="button button-block button-calm" ng-click="addLocation()">Add A Location</button>
+    </div>
     <ion-list class="list" can-swipe="true">
       <!-- <a class="item item-icon-right" ng-repeat="location in $parent.locations" href="/locations/{{location._id}}"> -->
 

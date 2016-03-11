@@ -5,7 +5,7 @@
 .video-container {
   position: relative;
   overflow:hidden;
-  background: grey;
+  background: #DBDBDB;
 }
 
 .video-container:before{
@@ -26,13 +26,17 @@ video::-webkit-media-controls-start-playback-button {
   /*-webkit-appearance: none;*/
 }
 
+.item-avatar > img {
+  background: #DBDBDB;
+}
+
 .spinner-overlay {
   position: fixed;
   text-align: center;
   margin: auto;
   background:black;
   top: 0; left: 0; bottom: 0; right: 0;
-  z-index: 1;
+  z-index: 4;
 }
 
 div.spinner {
@@ -42,7 +46,7 @@ div.spinner {
   margin: auto;
   background:black;
   top: 0; left: 0; bottom: 0; right: 0;
-  z-index: 2;
+  z-index: 5;
 }
 
 /*

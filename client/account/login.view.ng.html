@@ -1,19 +1,8 @@
 <ion-view view-title="Login">
   <ion-content class="padding">
-
-		      <div class="list list-inset">
-		      	<label class="item item-input">
-	              <input type="text" placeholder="Email" ng-model="$parent.email">
-	          </label>
-	          <!-- <label class="item item-input">
-	              <input type="text" placeholder="Username" ng-model="username">
-	          </label> -->
-	          <label class="item item-input">
-	              <input type="password" placeholder="Password" ng-model="$parent.password">
-	          </label>
-		      </div>
-		      <button class="button button-block button-calm" ng-click="login()">Login</button>
-		      <button class="button button-block button-positive" ng-click="logout()">Logout</button>
-
+		<login-buttons></login-buttons>
+    <button class="button button-block button-positive icon-left ion-social-facebook" ng-click="facebookLogin()">Login with Facebook</button>
+    <button class="button button-block button-assertive icon-left ion-social-google" ng-click="googleLogin()">Login with Google</button>
+    <button class="button button-block button-calm icon-left ion-social-twitter" ng-click="twitterLogin()">Login with Twitter</button>
   </ion-content>
 </ion-view>

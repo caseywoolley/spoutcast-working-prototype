@@ -5,9 +5,9 @@
     <ion-spinner icon="ios" class="spinner-calm"></ion-spinner>
   </div>
 
-  <ion-content class="review-detail">
+  <ion-content class="review-detail has-header has-footer">
     <ion-list>
-      {{review}}
+      <!-- {{review}} -->
       <!-- {{location}} -->
       <ion-item ng-show="review.video && review.poster" class="row-no-padding">
       <h3>Review Preview</h3>
@@ -29,6 +29,15 @@
 
       <ion-item ng-if="review.video && review.poster" class="padding">
         <!-- TODO: add star selector input -->
+
+        <h1>
+          <i ng-click="setRating(1)" ng-class="review.rating >= 1 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+          <i ng-click="setRating(2)" ng-class="review.rating >= 2 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+          <i ng-click="setRating(3)" ng-class="review.rating >= 3 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+          <i ng-click="setRating(4)" ng-class="review.rating >= 4 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+          <i ng-click="setRating(5)" ng-class="review.rating >= 5 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
+        </h1>
+
         <input class="full-width" type="text" placeholder="Title (Optional)" ng-model="review.title" ng-blur="update(review, {title: review.title})" />
       </ion-item>
 
@@ -37,6 +46,8 @@
         <p>{{location.formatted_address}}</p>
         <button ng-if="!review.video" class="button button-block button-assertive" ng-click="recordVideo()">Record Your Review</button>
         <button ng-if="review.video && review.poster && !review.active" class="button button-block button-calm" ng-click="publish(review)">Post Review</button>
+        <button ng-if="review.video && review.poster && !review.active" class="button button-block button-positive" ng-click="update(review, {title: review.title, rating: review.rating})">Update</button>
+        <!-- <button ng-if="review.video && review.poster && !review.active" class="button button-block button-positive" ng-click="update(review)">Update</button> -->
         <button class="button button-block button-assertive" ng-click="remove(review)">Delete</button>
       </ion-item>
 

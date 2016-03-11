@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationsListCtrl', function($scope, $state, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
+.controller('LocationsListCtrl', function($scope, $state, $meteor, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
   $scope.newLocation = {};
 
   $scope.autorun(function() {
@@ -49,10 +49,10 @@ angular.module('spoutCastApp')
   // };
 
   //TODO: insert data at creation
-  $scope.locations.forEach(function(location) {
-    Locations.update({ _id: location._id}, {$set: {loc: { type: "Point", coordinates:[location.latLng.lng, location.latLng.lat]}}});
-      //Locations.update({ _id: location._id}, {$unset: {test: ''}});
-  });
+  // $scope.locations.forEach(function(location) {
+  //   Locations.update({ _id: location._id}, {$set: {loc: { type: "Point", coordinates:[location.latLng.lng, location.latLng.lat]}}});
+  //     //Locations.update({ _id: location._id}, {$unset: {test: ''}});
+  // });
   
   
   $scope.addLocation = function(){
@@ -87,27 +87,39 @@ angular.module('spoutCastApp')
   };
 
   $scope.addReview = function(location){
-    var existingReview = $scope.getReview(location);
-    if (existingReview) {
-      $state.go('tabs.review-detail', {id: existingReview._id});  
-    } else { 
-      var review = {};
-      review.user_id = Meteor.user()._id;
-      review.location_id = location._id;
-      review.latLng = $scope.latLng;
-      Reviews.insert(review);
-      // ReviewService.setCurrentReview(review);
+    if (Meteor.user()){
+      var existingReview = $scope.getReview(location);
+      if (existingReview) {
+        $state.go('tabs.review-detail', {id: existingReview._id});  
+      } else { 
+        var review = {};
+        review.user_id = Meteor.user()._id;
+        review.location_id = location._id;
+        review.latLng = $scope.latLng;
+        review.loc = {
+          type: 'Point',
+          coordinates: [location.latLng.lng, location.latLng.lat]
+        };
+        Reviews.insert(review);
+        // ReviewService.setCurrentReview(review);
+      }
+    } else {
+      $state.go('tabs.login');
     }
   };
 
   $scope.save = function() {
-    //TODO: if not logged in send to login page
     // if ($scope.form.$valid) {
       var latLng = $scope.newLocation.latLng;
       $scope.newLocation.latLng = {};
       //temporary: parsefloat for manual geo entry while testing
       $scope.newLocation.latLng.lat = parseFloat(latLng.lat);
       $scope.newLocation.latLng.lng = parseFloat(latLng.lng);
+      //Geospacial index
+      $scope.newLocation.loc = { 
+        type: "Point",
+        coordinates: [latLng.lng, latLng.lat]
+      };
       Locations.insert($scope.newLocation);
       $scope.newLocation = {};
       $scope.newLocation.latLng = $scope.latLng;

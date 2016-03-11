@@ -4,6 +4,7 @@ angular.module('spoutCastApp')
 .controller('ReviewsListCtrl', function($scope, $ionicScrollDelegate, MapService) {
   // $ionicNavBarDelegate.showBackButton(false);
   $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
+  $scope.reviews = [{},{},{}];
   console.log($scope.awsBucket)
 
   if (Meteor.isCordova) {
@@ -28,9 +29,10 @@ angular.module('spoutCastApp')
             },
             $maxDistance: 1000 * 1609 // 1000 miles
           }
-        }
+        },
+        active: true
       });
-    },
+    }
   });
 
   $scope.subscribe('reviews', function() {
@@ -38,13 +40,13 @@ angular.module('spoutCastApp')
   });
 
   //TODO: add data at creation
-  $scope.reviews.forEach(function(review) {
-    if (review.latLng){
+  // $scope.reviews.forEach(function(review) {
+  //   if (review.latLng){
 
-      Reviews.update({ _id: review._id}, {$set: {loc: { type: "Point", coordinates:[review.latLng.lng, review.latLng.lat]}}});
-    }
-      //Locations.update({ _id: reviews._id}, {$unset: {test: ''}});
-  });             
+  //     Reviews.update({ _id: review._id}, {$set: {loc: { type: "Point", coordinates:[review.latLng.lng, review.latLng.lat]}}});
+  //   }
+  //     //Locations.update({ _id: reviews._id}, {$unset: {test: ''}});
+  // });           
 
   $scope.save = function() {
     if ($scope.form.$valid) {

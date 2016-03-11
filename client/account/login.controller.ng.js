@@ -1,19 +1,39 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LoginCtrl', function($scope, $meteor) {
-  
-	$scope.login = function() {
-		console.log($scope.email, $scope.password)
-		$meteor.loginWithPassword( $scope.email, $scope.password ).then(function(){
-		  console.log('Login success');
-		}, function(err){
-		  console.log('Login error - ', err);
-		});
+.controller('LoginCtrl', function($scope, $meteor, RoutingService) {
+
+	$scope.facebookLogin = function() {
+		$meteor.loginWithFacebook().then(function(){
+  		console.log('Login success');
+  		RoutingService.goBack();
+	  }, function(err){
+	  	//TODO: display error
+	    console.log('Login error - ', err);
+	  });
 	};
 
-	$scope.logout = function() {
-		$meteor.logout();
+	$scope.googleLogin = function() {
+		$meteor.loginWithGoogle().then(function(){
+  		console.log('Login success');
+  		RoutingService.goBack();
+	  }, function(err){
+	  	//TODO: display error
+	    console.log('Login error - ', err);
+	  });
 	};
+
+	$scope.twitterLogin = function() {
+		$meteor.loginWithTwitter().then(function(){
+  		console.log('Login success');
+  		RoutingService.goBack();
+	  }, function(err){
+	  	//TODO: display error
+	    console.log('Login error - ', err);
+	  });
+	};
+
+	console.log(Meteor.absoluteUrl())
+
 
 });

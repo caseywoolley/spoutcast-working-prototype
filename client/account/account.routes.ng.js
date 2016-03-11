@@ -20,9 +20,9 @@ angular.module('spoutCastApp')
         templateUrl: 'client/account/account.view.ng.html',
         controller : 'AccountCtrl',
         resolve: {
-          currentUser: ['$meteor', function($meteor) {
+          currentUser: function($meteor) {
             return $meteor.requireUser();
-          }]
+          }
         }
       }
     }

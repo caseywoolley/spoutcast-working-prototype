@@ -27,7 +27,12 @@ angular.module('spoutCastApp')
     views: {
       'tabs': {
         templateUrl: 'client/locations/location-detail.view.ng.html',
-        controller : 'LocationDetailCtrl'
+        controller : 'LocationDetailCtrl',
+        resolve: {
+          currentUser: function($meteor) {
+            return $meteor.requireUser();
+          }
+        }
       }
     }
   });

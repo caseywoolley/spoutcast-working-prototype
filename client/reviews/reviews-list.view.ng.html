@@ -2,9 +2,9 @@
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
-  <ion-content class="reviews-list">
+  <ion-content class="reviews-list has-header has-footer">
     <ion-list>
-      <ion-item collection-repeat="review in $parent.reviews"  class="item-remove-animate row-no-padding">
+      <ion-item collection-repeat="review in $parent.reviews" class="item-remove-animate row-no-padding">
         <review-card
         ng-if="review.active" 
         review="review"
@@ -19,11 +19,11 @@
         poster="localPath + review._id + '.jpg'"
         remove="remove">
         </review-card>
-        {{review.latLng}}
+        <!-- {{review.latLng}} -->
       </ion-item>
     </ion-list>
-    <ion-item>
+   <!--  <ion-item>
       <p>Total number of reviews: {{ $parent.reviews.length }}</p>
-    </ion-item>
+    </ion-item> -->
   </ion-content>
 </ion-view>

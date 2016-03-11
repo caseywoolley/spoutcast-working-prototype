@@ -3,8 +3,6 @@
 angular.module('spoutCastApp')
 .controller('MapCtrl', function($scope, MapService) {
 
-  $scope.viewName = 'Map';
-
   $scope.helpers({
     locations: function() {
       return Locations.find({});

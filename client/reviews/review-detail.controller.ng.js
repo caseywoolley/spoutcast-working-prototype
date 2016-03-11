@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('ReviewDetailCtrl', function($scope, $rootScope, $state, $stateParams, $cordovaFile, $meteor) {
+.controller('ReviewDetailCtrl', function($scope, $rootScope, $state, $stateParams, $ionicHistory, $cordovaFile, $meteor, RoutingService) {
   
   $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
   $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");
@@ -30,6 +30,10 @@ angular.module('spoutCastApp')
     $scope.vidFile = $scope.review._id + '.mov';
     $scope.thumbFile = $scope.review._id + '.jpg';
   }
+
+  $scope.setRating = function(rating) {
+    $scope.review.rating = rating;
+  };
 
   $scope.deleteFile = function(folder, file) {
     $cordovaFile.removeFile(folder , file)
@@ -91,7 +95,8 @@ angular.module('spoutCastApp')
     console.log('upload success!')
 
     $scope.review.active = true;
-    $scope.update($scope.review, {active: true});
+    $scope.review.published = Date.now();
+    $scope.update($scope.review, {active: true, published: $scope.review.published});
     $scope.uploading = false;
     $scope.deleteFile($scope.mediaFolder, $scope.vidFile);
     $scope.deleteFile($scope.mediaFolder, $scope.thumbFile);
@@ -185,8 +190,8 @@ angular.module('spoutCastApp')
       }
     }
 
+    RoutingService.goBack();
     Reviews.remove({_id:review._id});
-    $state.go('reviews-list');
   };
 
   
