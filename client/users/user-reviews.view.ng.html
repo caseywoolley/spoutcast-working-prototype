@@ -1,8 +1,5 @@
-<ion-view view-title="Reviews">
-  <ion-nav-buttons side="left">
-    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
-
+<ion-view view-title="{{user.profile.name || 'user name'}}">
+  <ion-nav-back-button></ion-nav-back-button>
   <div class="bar bar-subheader item-input-inset">
     <label class="item-input-wrapper">
       <i class="icon ion-ios-search placeholder-icon"></i>
@@ -12,13 +9,6 @@
       Cancel
     </button>
   </div>
-
- <!--  <div ng-if="!searchMode" class="bar bar-subheader">
-    <div class="button-bar">
-      <a class="button icon ion-ios-videocam"></a>
-      <a class="button">Third</a>
-    </div>
-  </div> -->
 
   <ion-content class="reviews-list has-header has-subheader has-footer">
     <ion-list>

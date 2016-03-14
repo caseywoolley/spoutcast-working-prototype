@@ -1,7 +1,8 @@
-<div class="item item-avatar item-icon-right">
+<div ng-click="userMore()" class="item item-avatar item-icon-right">
 	<img ng-src="{{(avatar)}}">
 	<h2>{{ username || 'Spoutcast user'}}</h2>
-	<p>{{review.published || '11/25/15'}}</p>
+	<p>{{review.published | timeSince }}</p>
+	<i href="" class="icon ion-ios-arrow-right"></i>
 		
 </div>
 
@@ -29,12 +30,34 @@
 
 <!-- <div class="item vid-details item-text-wrap item-borderless">
 </div> -->
-<div class="item vid-details item-icon-right item-text-wrap item-borderless">
+
+	<div class="row item item-text-wrap item-borderless" ng-click="editReview(review)">
+	  <div class="col col-70"><h2>{{ review.title || 'Review of Location Name by Spoutcast user'}}</h2></div>
+	  <!-- <div class="col col-10"><i class="icon ion-thumbsup" ng-click="editReview(review)"></i></div>
+	  <div class="col col-10"><i class="icon ion-thumbsdown" ng-click="editReview(review)"></i></div> -->
+
+	  <!-- <div ng-if="!canEdit" class="col col-10"><i class="icon ion-more" ng-click="editReview(review)"></i></div> -->
+	  <div ng-if="canEdit" class="col col-10"><i class="icon ion-compose" ></i></div>
+	</div>
+	<div class="row item item-borderless" ng-click="locationMore()">
+	  <div class="col col-90">
+		  <p>{{ location.name }}</p>
+		  <p>{{ location.formatted_address }}</p>
+	  </div>
+	  <div class="col"><i class="icon ion-ios-arrow-right" ></i></div>
+	</div>
+	<!-- <div class="row item item-borderless">
+	  <div class="col col-90"><p>{{ location.formatted_address }}</p></div>
+	</div> -->
+
+<!-- <div class="item vid-details item-icon-right item-text-wrap item-borderless">
 	<h2>{{ review.title || 'Review of Location Name by Spoutcast user'}}</h2>
 	<p>{{ location.name }}</p>
 	<p>{{ location.formatted_address }}</p>
-	<i class="icon ion-more" ng-click="editReview(review)"></i>
-</div>
+	<i ng-if="!canEdit" class="icon ion-more" ng-click="editReview(review)"></i>
+	<i ng-if="!canEdit" class="icon ion-ios-arrow-right" ng-click="editReview(review)"></i>
+	<i ng-if="canEdit" class="icon ion-compose" ng-click="editReview(review)"></i>
+</div> -->
 	<!-- <i class="icon ion-thumbsup" ng-click=""></i> -->
 	<!-- <i class="icon ion-thumbsdown" ng-click=""></i> -->
 	<!-- <div class="rank-votes center"> -->

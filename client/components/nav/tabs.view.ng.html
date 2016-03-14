@@ -13,12 +13,13 @@
             <ul class="list">
               <a ng-if="!currentUser" ui-sref="tabs.login" class="item" ng-click="toggleLeft()">Login</a>
               <a ng-if="currentUser" ui-sref="tabs.account" class="item" ng-click="toggleLeft()">Account</a>
+              <a ng-if="currentUser" ui-sref="tabs.user-reviews({id: currentUserId()})" class="item" ng-click="toggleLeft()">My Reviews</a>
               <a ng-if="currentUser" class="item" ng-click="logout()">Logout</a>
             </ul>
         </ion-content>
-        <ion-footer-bar class="bar bar-footer">
+      <!--   <ion-footer-bar class="bar bar-footer">
             <a class="button button-fullwidth" ui-sref="tabs.policy" ng-click="toggleLeft()">Privacy Policy</a>
-        </ion-footer-bar>
+        </ion-footer-bar> -->
     </ion-side-menu>
 </ion-side-menus>
 <ion-nav-view></ion-nav-view>

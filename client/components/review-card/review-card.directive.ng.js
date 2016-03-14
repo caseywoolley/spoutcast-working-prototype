@@ -21,6 +21,17 @@ angular.module('spoutCastApp')
         $scope.username = user.profile.name;
       }
 
+      $scope.canEdit = Meteor.userId() === user._id;
+
+      //TODO: import different versions by view
+      $scope.userMore = function(){
+        $state.go('tabs.user-reviews', {id: user._id});
+      };
+
+      $scope.locationMore = function() {
+        $state.go('tabs.location-reviews', {id: $scope.location._id});
+      };
+
       $scope.editReview = function(review) {
         $state.go('tabs.review-detail', {id: review._id});
       };

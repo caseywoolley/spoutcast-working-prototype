@@ -26,6 +26,10 @@ video::-webkit-media-controls-start-playback-button {
   /*-webkit-appearance: none;*/
 }
 
+.vid-details {
+  height: 120px;
+}
+
 .item-avatar > img {
   background: #DBDBDB;
 }

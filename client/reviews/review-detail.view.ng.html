@@ -8,10 +8,35 @@
   <ion-content class="review-detail has-header has-footer">
     <ion-list>
       <!-- {{review}} -->
-      <!-- {{location}} -->
+      <!-- {{location}} --> 
+      <div class="item item-text-wrap">
+        <h2>{{location.name}}</h2>
+        <p>{{location.formatted_address}}</p>
+      </div>
       <ion-item ng-show="review.video && review.poster" class="row-no-padding">
-      <h3>Review Preview</h3>
-        <review-card
+      <div class="video-container">
+        <video 
+        ng-if="review.active"
+        id="{{review._id}}"
+        ng-src="{{awsBucket + review.user_id + '/' + review._id + '.mov'}}" 
+        poster="{{awsBucket + review.user_id + '/' + review._id + '.jpg'}}" 
+        play-toggle
+        preload="none"
+        type="video/quicktime">
+          Your browser does not support HTML5 video.
+        </video>
+        <video 
+        ng-if="!review.active"
+        id="{{review._id}}"
+        ng-src="{{localPath + review._id + '.mov'}}" 
+        poster="{{localPath + review._id + '.jpg'}}" 
+        play-toggle
+        preload="none"
+        type="video/quicktime">
+          Your browser does not support HTML5 video.
+        </video>
+        </div>
+        <!-- <review-card
         ng-if="review.active" 
         review="review"
         video="awsBucket + review.user_id + '/' + review._id + '.mov'"
@@ -24,12 +49,11 @@
         video="localPath + review._id + '.mov'"
         poster="localPath + review._id + '.jpg'"
         remove="remove">
-        </review-card>
+        </review-card> -->
       </ion-item>
 
       <ion-item ng-if="review.video && review.poster" class="padding">
-        <!-- TODO: add star selector input -->
-
+        <!-- TODO: make star rating directive -->
         <h1>
           <i ng-click="setRating(1)" ng-class="review.rating >= 1 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
           <i ng-click="setRating(2)" ng-class="review.rating >= 2 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
@@ -37,18 +61,21 @@
           <i ng-click="setRating(4)" ng-class="review.rating >= 4 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
           <i ng-click="setRating(5)" ng-class="review.rating >= 5 ? 'ion-ios-star' : 'icon ion-ios-star-outline'" class="icon"></i>
         </h1>
-
-        <input class="full-width" type="text" placeholder="Title (Optional)" ng-model="review.title" ng-blur="update(review, {title: review.title})" />
+        <label class="item item-input">
+          <textarea class="full-width" rows="2" maxlength="50" placeholder="Title (Optional)" ng-model="review.title" ></textarea>
+          <!-- ng-blur="update(review, {title: review.title})" -->
+        </label>
       </ion-item>
 
-      <ion-item class="">
-        <h2>{{location.name}}</h2>
-        <p>{{location.formatted_address}}</p>
+      <ion-item>
+        <!-- <h2>{{location.name}}</h2>
+        <p>{{location.formatted_address}}</p> -->
         <button ng-if="!review.video" class="button button-block button-assertive" ng-click="recordVideo()">Record Your Review</button>
         <button ng-if="review.video && review.poster && !review.active" class="button button-block button-calm" ng-click="publish(review)">Post Review</button>
-        <button ng-if="review.video && review.poster && !review.active" class="button button-block button-positive" ng-click="update(review, {title: review.title, rating: review.rating})">Update</button>
+        <button ng-if="review.video && review.poster" class="button button-block button-positive" ng-click="update(review, {title: review.title, rating: review.rating})">Update</button>
         <!-- <button ng-if="review.video && review.poster && !review.active" class="button button-block button-positive" ng-click="update(review)">Update</button> -->
-        <button class="button button-block button-assertive" ng-click="remove(review)">Delete</button>
+        <!-- <button class="button button-block button-assertive" ng-click="remove(review)">Delete</button> -->
+        <a ng-click="remove(review)">Delete Review</a>
       </ion-item>
 
       

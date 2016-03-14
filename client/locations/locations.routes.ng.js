@@ -3,11 +3,6 @@
 angular.module('spoutCastApp')
 .config(function($stateProvider) {
   $stateProvider
-  // .state('locations-list', {
-  //   url: '/locations',
-  //   templateUrl: 'client/locations/locations-list.view.ng.html',
-  //   controller: 'LocationsListCtrl'
-  // })
   .state('tabs.locations-list', {
     url: '/locations',
     views: {
@@ -17,11 +12,6 @@ angular.module('spoutCastApp')
       }
     }
   })
-  // .state('location-detail', {
-  //   url: '/locations/:id',
-  //   templateUrl: 'client/locations/location-detail.view.ng.html',
-  //   controller: 'LocationDetailCtrl'
-  // })
   .state('tabs.location-detail', {
     url: '/locations/:id',
     views: {
@@ -33,6 +23,15 @@ angular.module('spoutCastApp')
             return $meteor.requireUser();
           }
         }
+      }
+    }
+  })
+   .state('tabs.location-reviews', {
+    url: '/location/:id/reviews',
+    views: {
+      'tabs': {
+        templateUrl: 'client/locations/location-reviews.view.ng.html',
+        controller : 'LocationReviewsCtrl'
       }
     }
   });

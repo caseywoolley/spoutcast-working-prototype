@@ -1,36 +1,29 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('ReviewsListCtrl', function($scope, $ionicScrollDelegate, MapService) {
+.controller('LocationReviewsCtrl', function($scope, $stateParams, $ionicScrollDelegate, MapService) {
   $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
 
   if (Meteor.isCordova) {
     $scope.localPath = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/';
   }
-
-  $scope.autorun(function() {
-    $scope.latLng = MapService.updateLocation();
-  });
+  $scope.location = Locations.findOne({ _id: $stateParams.id });
+  // $scope.isOwner = $scope.user._id === Meteor.userId();
 
   $scope.helpers({
     reviews: function() {
       return Reviews.find({
-        loc: {
-          $near: {
-            $geometry: {
-              type: 'Point', 
-              coordinates: [$scope.getReactively('latLng.lng'), $scope.getReactively('latLng.lat')],
-            },
-            $maxDistance: 1000 * 1609 // 1000 miles
-          }
-        },
+        location_id: $scope.location._id,
         active: true
-      });
+      },
+      {
+        sort: { published: -1 } 
+    });
     }
   });
 
   $scope.subscribe('reviews', function() {
-    return [{}, $scope.getReactively('latLng')];
+    return [{}, $scope.getReactively('search')];
   });
          
 

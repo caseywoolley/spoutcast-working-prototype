@@ -33,7 +33,4 @@ angular.module('spoutCastApp')
 	  });
 	};
 
-	console.log(Meteor.absoluteUrl())
-
-
 });
