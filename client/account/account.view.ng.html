@@ -4,17 +4,29 @@
 
 	  	<div class="item">
 	  		<img height="100px" ng-show="avatar" ng-src="{{avatar}}" />
-	  		<h1>{{userName}}</h1>
-	  	</div>
+      </div>
+
+      <div class="item" ng-if="!editMode">
+        <h1>{{userName}}</h1>
+        <a ng-click="toggleEditMode()">Change</a>
+      </div>
+
+      <div class="item" ng-if="editMode">
+        <label>
+          <input auto-select class="username" type="text" placeholder="Username" ng-model="newName">
+        </label>
+        <button class="button button-block button-calm" ng-click="update(newName)">Save</button>
+        <a ng-click="toggleEditMode()">Cancel</a>
+      </div>
   		<!-- <div class="item item-avatar" href="#">
 				<img ng-src="{{avatar}}">
 				<h2>{{userName}}</h2>
 				<p>{{username}}</p>
 			</div> -->
-    	<label class="item item-input">
+    	<!-- <label class="item item-input">
           <input type="text" placeholder="Username" ng-model="data.username">
       </label>
-      <button class="button button-block button-calm" ng-click="update(data)">Change Username</button>
+      <button class="button button-block button-calm" ng-click="update(data)">Change Username</button> -->
 
 
       <!-- <label class="item item-input">
@@ -26,6 +38,6 @@
     </div>
   	<!-- <button class="button button-block button-calm" ng-click="update(data)">Change Password</button> -->
 
-    <pre>{{getUser()}}</pre>
+    <!-- <pre>{{getUser()}}</pre> -->
   </ion-content>
 </ion-view>

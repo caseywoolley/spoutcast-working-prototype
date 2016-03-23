@@ -1,0 +1,43 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header item-input-inset">
+    <!-- <div class="item-input-wrapper">
+       <i class="icon ion-ios-search-strong placeholder-icon"></i>
+       <input type="search"
+              autocorrect="off"
+              autocapitalize="off"
+              g-places-autocomplete
+              placeholder="Search"
+              ng-change="getPredictions(search)"
+              ng-model="search">
+        <input id="pac-input" type="text" class="controls" placeholder="Enter a location" autocomplete="off">
+        <div ng-if="search != ''" 
+           ng-click="search = ''">
+           <i class="icon ion-ios-close placeholder-icon"></i>
+        </div>
+    </div> -->
+
+  <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
+  </ion-header-bar>
+
+
+  <ion-content class="padding">
+    <div class="list">
+      <div class="place-results"></div>
+
+        <label class="item item-input">
+          <input type="text" ng-model="newLocation.name" placeholder="Location Name">
+        </label>
+        <div class="item">
+          <h2>{{newLocation.streetAddress[0]}}</h2>
+          <h2>{{newLocation.streetAddress[1]}}</h2>   
+        </div>
+
+        <!-- <label class="item item-input">
+          <input type="text" ng-model="newLocation.streetAddress[0]" placeholder="Address">
+        </label> -->
+
+      <button class="button button-full button-calm" ng-click="save()">Add</button>
+      {{newLocation}}
+    </div>
+  </ion-content>
+</ion-modal-view>

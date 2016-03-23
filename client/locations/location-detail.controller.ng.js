@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationDetailCtrl', function($scope, $stateParams) {
+.controller('LocationDetailCtrl', function($scope, $stateParams, RoutingService) {
   
   $scope.helpers({
     location: function() {
@@ -15,6 +15,7 @@ angular.module('spoutCastApp')
     updates = _.clone(location);
     delete updates._id;
     Locations.update({_id: location._id }, {$set: updates});
+    RoutingService.goBack();
   };
   
   $scope.save = function() {

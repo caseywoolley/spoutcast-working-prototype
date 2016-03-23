@@ -31,7 +31,8 @@ angular.module('spoutCastApp')
 
   var updateLocation = function() {
     latLng = Geolocation.latLng() || latLng;
-    reverseGeo(latLng);
+    Session.set('latLng', latLng);
+    reverseGeo();
 
     map.center.latitude = latLng.lat;
     map.center.longitude = latLng.lng;
@@ -42,19 +43,40 @@ angular.module('spoutCastApp')
     return latLng;
   };
 
-  var reverseGeo = function(latLng, callback) {
+  // var gPlaces = function(callback) {
+  //   var Places = new google.maps.places.PlacesService(map);
+  //   Places.nearbySearch(request, function(results, status) {
+  //     if (status == google.maps.places.PlacesServiceStatus.OK) {
+  //       for (var i = 0; i < results.length; i++) {
+  //         var place = results[i];
+  //         // If the request succeeds, draw the place location on
+  //         // the map as a marker, and register an event to handle a
+  //         // click on the marker.
+  //         var marker = new google.maps.Marker({
+  //           map: map,
+  //           position: place.geometry.location
+  //         });
+  //       }
+  //     }
+  //   });
+  // };
+
+  var reverseGeo = function(callback) {
     geocoder.geocode( {'latLng': latLng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         var loc = results[0];
         var location = {
-          latitude: loc.geometry.location.lat,
-          longitude: loc.geometry.location.lng,
+          latLng: {
+            lat: loc.geometry.location.lat(),
+            lng: loc.geometry.location.lng()
+          },
           address: loc.formatted_address,
           address_components: loc.address_components,
+          place_id: loc.place_id
         };
         
-        Session.set('address', loc.formatted_address);
-        Session.set('location', loc);
+        // Session.set('address', loc.formatted_address);
+        Session.set('location', location);
         if (callback){
           return callback(location);
         }         

@@ -2,24 +2,34 @@
 
 angular.module('spoutCastApp')
 .directive('lowercase', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, modelCtrl) {
+      modelCtrl.$parsers.push(function(input) {
+        return input ? input.toLowerCase() : "";
+      });
+      element.css("text-transform", "lowercase");
+    }
+  };
+})
+//convert html input values to integers
+.directive('integer', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, ele, attr, ctrl) {
+      ctrl.$parsers.unshift(function(viewValue) {
+        return parseInt(viewValue, 10);
+      });
+    }
+  };
+})
+
+.directive('autoSelect', function($timeout) {
     return {
-      require: 'ngModel',
       link: function(scope, element, attrs, modelCtrl) {
-        modelCtrl.$parsers.push(function(input) {
-          return input ? input.toLowerCase() : "";
-        });
-        element.css("text-transform", "lowercase");
-      }
-    };
-  })
-  //convert html input values to integers
-  .directive('integer', function() {
-    return {
-      require: 'ngModel',
-      link: function(scope, ele, attr, ctrl) {
-        ctrl.$parsers.unshift(function(viewValue) {
-          return parseInt(viewValue, 10);
-        });
+        $timeout(function(){
+          element[0].focus();
+        },0);
       }
     };
   })
@@ -45,4 +55,4 @@ angular.module('spoutCastApp')
       return day + " " + month + year;
     }
   };
-})
+});

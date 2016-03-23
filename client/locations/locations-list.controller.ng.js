@@ -1,14 +1,14 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationsListCtrl', function($scope, $state, $meteor, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
+.controller('LocationsListCtrl', function($scope, $state, $meteor, $ionicListDelegate, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
   $scope.newLocation = {};
 
   $scope.autorun(function() {
     $scope.latLng = MapService.updateLocation();
   });
 
-  $ionicModal.fromTemplateUrl('templates/add-location.html', {
+  $ionicModal.fromTemplateUrl('client/locations/location-add.view.ng.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
@@ -56,20 +56,27 @@ angular.module('spoutCastApp')
   
   
   $scope.addLocation = function(){
-    $scope.newLocation.latLng = $scope.latLng;
+    var location = Session.get('location');
+    $scope.newLocation.latLng = location.latLng;
+    $scope.newLocation.gPlaceId = location.place_id;
+    var streetAddress = [];
+    streetAddress[0] = location.address_components[0].short_name + ' ' + location.address_components[1].short_name;
+    streetAddress[1] = location.address_components[2].short_name + ', ' + location.address_components[4].short_name + ' ' + location.address_components[6].short_name;
+    $scope.newLocation.streetAddress = streetAddress;
+    // $scope.newLocation.formatted_address = Session.get('address');
     $scope.modal.show();
   };
 
   $scope.myAddress = function() {
-    return Session.get('address');
+    return Session.get('location');
   };
 
-  $scope.newLocationAddress = function(latLng){
-    MapService.reverseGeo(latLng, function(loc){
-      $scope.newLocation.formatted_address = loc.address;
-      return loc.address;
-    });
-  };
+  // $scope.newLocationAddress = function(latLng){
+  //   MapService.reverseGeo(function(loc){
+  //     $scope.newLocation.formatted_address = loc.formatted_address;
+  //     return loc.address;
+  //   });
+  // };
 
   $scope.getReview = function(location){
     if (Meteor.user()) {
@@ -82,11 +89,12 @@ angular.module('spoutCastApp')
   };
 
   $scope.editLocation = function(location){
-    console.log(location)
-    $state.go('tabs.location-detail', {id: location._id});  
+    $ionicListDelegate.closeOptionButtons();
+    $state.go('tabs.location-detail', {id: location._id});
   };
 
   $scope.addReview = function(location){
+    $ionicListDelegate.closeOptionButtons();
     if (Meteor.user()){
       var existingReview = $scope.getReview(location);
       if (existingReview) {
@@ -111,10 +119,10 @@ angular.module('spoutCastApp')
   $scope.save = function() {
     // if ($scope.form.$valid) {
       var latLng = $scope.newLocation.latLng;
-      $scope.newLocation.latLng = {};
+      // $scope.newLocation.latLng = {};
       //temporary: parsefloat for manual geo entry while testing
-      $scope.newLocation.latLng.lat = parseFloat(latLng.lat);
-      $scope.newLocation.latLng.lng = parseFloat(latLng.lng);
+      // $scope.newLocation.latLng.lat = parseFloat(latLng.lat);
+      // $scope.newLocation.latLng.lng = parseFloat(latLng.lng);
       //Geospacial index
       $scope.newLocation.loc = { 
         type: "Point",

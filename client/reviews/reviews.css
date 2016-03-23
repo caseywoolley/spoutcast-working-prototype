@@ -65,6 +65,10 @@ position: absolute;
   height: 85px !important;
 }
 
+.no-background {
+  background:none;
+}
+
 .center {
   text-align: center;
 }

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('ReviewDetailCtrl', function($scope, $rootScope, $state, $stateParams, $ionicHistory, $cordovaFile, $meteor, RoutingService) {
+.controller('ReviewDetailCtrl', function($scope, $rootScope, $state, $stateParams, $cordovaFile, $meteor, RoutingService) {
   
   $scope.awsBucket = Meteor.settings.public.amazonS3.AWSBucket;
   $scope.uploader = new Slingshot.Upload("uploadToAmazonS3");

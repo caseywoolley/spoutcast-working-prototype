@@ -1,18 +1,18 @@
 
-<ion-view view-title="Locations">
+<ion-view view-title="Check & Review">
   <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
       </ion-nav-buttons>
   <ion-content class="locations-list has-header has-footer">
 
     <div class="item">
-      <button class="button button-block button-calm" ng-click="addLocation()">Add A Location</button>
+      <button class="button button-block button-calm" ng-click="addLocation()">Add My Location</button>
     </div>
     <ion-list class="list" can-swipe="true">
 
       <ion-item class="item-icon-right item-text-wrap" ng-repeat="location in $parent.locations" ng-click="addReview(location)" href="#">
         <h2>{{ location.name }}</h2> 
-        <p>{{ location.formatted_address }}</p>
+        <p>{{ location.streetAddress[0] }}</p>
         <i ng-if="!getReview(location)" class="badge badge-calm">Check In</i>
         <i ng-if="getReview(location) && !getReview(location).video" class="badge badge-balanced">Review</i>
         <i ng-if="getReview(location) && !getReview(location).active && getReview(location).video" class="badge badge-royal">Post</i>
@@ -22,56 +22,7 @@
         <ion-option-button class="button-positive" ng-click="editLocation(location)">Edit</ion-option-button>
       </ion-item>
     </ion-list>
-    <!-- {{reviews}} -->
-    {{latLng}}
-    {{myAddress()}}
-    {{history()}}
+    <!-- {{latLng}} -->
+    <!-- {{myAddress()}} -->
   </ion-content>
 </ion-view>
-
-
-<script id="templates/add-location.html" type="text/ng-template"> 
-  <ion-modal-view>
-
-
-    <ion-header-bar class="bar bar-header item-input-inset">
-
-      <div class="item-input-wrapper">
-         <i class="icon ion-ios-search-strong placeholder-icon"></i>
-         <input type="search"
-                autocorrect="off"
-                autocapitalize="off"
-                g-places-autocomplete
-                placeholder="Search"
-                ng-change="getPredictions(search)"
-                ng-model="search">
-          <div ng-if="search != ''" 
-             ng-click="search = ''">
-             <i class="icon ion-ios-close placeholder-icon"></i>
-          </div>
-      </div>
-
-    <button class="button button-clear" ng-click="modal.hide()">Cancel</button>
-    </ion-header-bar>
-
-
-    <ion-content class="padding">
-      <div class="list">
-        <div class="place-results"></div>
-
-          <label class="item item-input">
-            <input type="text" ng-model="newLocation.name" placeholder="Location Name">
-          </label>
-          <label class="item item-input">
-            <input type="text" ng-model="newLocation.formatted_address" placeholder="Address">
-          </label>
-          <label class="item item-input">
-            <input type="text" ng-model="newLocation.latLng.lat" placeholder="latitude">
-            <input type="text" ng-model="newLocation.latLng.lng" placeholder="longitude">
-          </label>
-
-        <button class="button button-full button-calm" ng-click="save()">Add</button>
-      </div>
-    </ion-content>
-  </ion-modal-view>
-</script>

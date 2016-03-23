@@ -2,6 +2,8 @@
 
 angular.module('spoutCastApp')
 .controller('AccountCtrl', function($scope) {
+
+  $scope.editMode = false;
 	
 	if (Meteor.user().profile) {
   	$scope.userName = Meteor.user().profile.name;
@@ -9,8 +11,15 @@ angular.module('spoutCastApp')
 
   $scope.avatar = Avatar.getUrl(Meteor.user());
 
-  $scope.update = function(updates) {
-  	Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name":"Carlos"}})
+  $scope.toggleEditMode = function() {
+    $scope.editMode = !$scope.editMode;
+    if ($scope.editMode) { $scope.newName = $scope.userName; }
+  };
+
+  $scope.update = function(userName) {
+    $scope.userName = userName;
+  	Meteor.users.update({_id:Meteor.user()._id}, {$set:{"profile.name": userName}});
+    $scope.toggleEditMode();
   };
 
   $scope.changePassword = function() {

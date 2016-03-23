@@ -1,3 +1,7 @@
 .toggle-button {
 	float: right;
 }
+
+.username {
+	font-size: 2em !important;
+}
