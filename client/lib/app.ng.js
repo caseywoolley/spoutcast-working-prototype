@@ -4,7 +4,6 @@ angular.module('spoutCastApp', [
   'accounts.ui',
   'ngSanitize',
   'uiGmapgoogle-maps',
-  'google.places',
   'ngCordova'
 ])
 

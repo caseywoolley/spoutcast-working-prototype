@@ -11,7 +11,8 @@
       <!-- {{location}} --> 
       <div class="item item-text-wrap">
         <h2>{{location.name}}</h2>
-        <p>{{location.formatted_address}}</p>
+        <p>{{ location.streetAddress[0] }}</p> 
+        <p>{{ location.streetAddress[1] }}</p>
       </div>
       <ion-item ng-show="review.video && review.poster" class="row-no-padding">
       <div class="video-container">
@@ -36,20 +37,6 @@
           Your browser does not support HTML5 video.
         </video>
         </div>
-        <!-- <review-card
-        ng-if="review.active" 
-        review="review"
-        video="awsBucket + review.user_id + '/' + review._id + '.mov'"
-        poster="awsBucket + review.user_id + '/' + review._id + '.jpg'"
-        remove="remove">
-        </review-card>
-        <review-card
-        ng-if="!review.active"
-        review="review"
-        video="localPath + review._id + '.mov'"
-        poster="localPath + review._id + '.jpg'"
-        remove="remove">
-        </review-card> -->
       </ion-item>
 
       <ion-item ng-if="review.video && review.poster" class="padding">

@@ -12,7 +12,7 @@
 
   <ion-content class="reviews-list has-header has-subheader has-footer">
     <ion-list>
-      <ion-item collection-repeat="review in $parent.reviews" class="item-remove-animate row-no-padding">
+      <div collection-repeat="review in $parent.reviews" class="item-remove-animate row-no-padding">
         <review-card
         ng-if="review.active" 
         review="review"
@@ -28,7 +28,7 @@
         remove="remove">
         </review-card>
         <!-- {{review.latLng}} -->
-      </ion-item>
+      </div>
     </ion-list>
    <!--  <ion-item>
       <p>Total number of reviews: {{ $parent.reviews.length }}</p>

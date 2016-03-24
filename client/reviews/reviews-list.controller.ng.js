@@ -12,6 +12,8 @@ angular.module('spoutCastApp')
     $scope.latLng = MapService.updateLocation();
   });
 
+  $scope.emptyReviews = [{title:" "},{title:" "}, {title:" "}, {title:" "}, {title:" "}];
+
   $scope.helpers({
     reviews: function() {
       return Reviews.find({

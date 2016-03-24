@@ -13,15 +13,15 @@ angular.module('spoutCastApp')
     },
     templateUrl: 'client/components/review-card/review-card.view.ng.html',
     controller: function ($scope, $element) {
+      $scope.review = $scope.review || {_id: 0, profile: {}};
       var user = Meteor.users.findOne({_id: $scope.review.user_id});
       $scope.location = Locations.findOne({_id: $scope.review.location_id});
       
       $scope.avatar = Avatar.getUrl(user);
-      if (user.profile){
+      if (user && user.profile){
         $scope.username = user.profile.name;
+        $scope.canEdit = Meteor.userId() === user._id;
       }
-
-      $scope.canEdit = Meteor.userId() === user._id;
 
       //TODO: import different versions by view
       $scope.userMore = function(){

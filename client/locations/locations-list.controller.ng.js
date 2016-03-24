@@ -59,6 +59,7 @@ angular.module('spoutCastApp')
     var location = Session.get('location');
     $scope.newLocation.latLng = location.latLng;
     $scope.newLocation.gPlaceId = location.place_id;
+    $scope.newLocation.address_components = location.address_components;
     var streetAddress = [];
     streetAddress[0] = location.address_components[0].short_name + ' ' + location.address_components[1].short_name;
     streetAddress[1] = location.address_components[2].short_name + ', ' + location.address_components[4].short_name + ' ' + location.address_components[6].short_name;

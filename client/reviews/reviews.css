@@ -27,7 +27,11 @@ video::-webkit-media-controls-start-playback-button {
 }
 
 .vid-details {
-  height: 120px;
+  height: 60px;
+}
+
+.card-spacer {
+  height: 1px;
 }
 
 .item-avatar > img {
