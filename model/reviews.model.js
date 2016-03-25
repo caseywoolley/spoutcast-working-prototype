@@ -6,10 +6,10 @@ Reviews.allow({
   },
   update: function(userId, review, fields, modifier) {
   	//TODO: deny attempts to modify geo-location & associated location
-    return !!userId;
+    return review.user_id === userId;
   },
   remove: function(userId, review) {
-    return !!userId;
+    return review.user_id === userId;
   }
 });
 

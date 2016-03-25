@@ -61,8 +61,10 @@ angular.module('spoutCastApp')
           console.log('thumbnail generated', success)
           $scope.review.poster = true;
           $scope.update($scope.review, {poster: true});
+          // $scope.uploading = false;
         }, function (error) {
           console.log('error', error)
+          // $scope.uploading = false;
         });
       },"image/jpeg", 0.75); //75% quality jpg
     };
@@ -73,6 +75,7 @@ angular.module('spoutCastApp')
   };
 
   var captureSuccess = function(mediaFiles) {
+    // $scope.uploading = true;
     console.log(mediaFiles[0]);
     //move captured video 
     var fromPath = 'file://' + mediaFiles[0].fullPath.split("/").slice(0, -1).join('/');
@@ -92,11 +95,11 @@ angular.module('spoutCastApp')
 
 
   var uploadSuccess = function(){
-    console.log('upload success!')
+    console.log('upload success!') 
 
     $scope.review.active = true;
     $scope.review.published = Date.now();
-    $scope.update($scope.review, {active: true, published: $scope.review.published});
+    $scope.update($scope.review, {active: true, published: $scope.review.published, title: $scope.review.title, rating: $scope.review.rating});
     $scope.uploading = false;
     $scope.deleteFile($scope.mediaFolder, $scope.vidFile);
     $scope.deleteFile($scope.mediaFolder, $scope.thumbFile);

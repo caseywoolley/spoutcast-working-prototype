@@ -15,9 +15,6 @@ angular.module('spoutCastApp')
   });
     
   $scope.helpers({
-    // locations: function(){
-    //   return Locations.find({});
-    // },
     locations: function() {
       return Locations.find({
         loc: {
@@ -42,20 +39,13 @@ angular.module('spoutCastApp')
 
   $scope.subscribe('reviews', function() {
     return [{}, $scope.getReactively('search')];
-  });
-
-  // $scope.history = function() {
-  //   return JSON.stringify($ionicHistory.viewHistory(), null, 2);
-  // };
-
-  //TODO: insert data at creation
-  // $scope.locations.forEach(function(location) {
-  //   Locations.update({ _id: location._id}, {$set: {loc: { type: "Point", coordinates:[location.latLng.lng, location.latLng.lat]}}});
-  //     //Locations.update({ _id: location._id}, {$unset: {test: ''}});
-  // });
-  
+  });  
   
   $scope.addLocation = function(){
+    if (!Meteor.user()){ 
+      $state.go('tabs.login');
+      return;
+    }
     var location = Session.get('location');
     $scope.newLocation.latLng = location.latLng;
     $scope.newLocation.gPlaceId = location.place_id;
@@ -64,20 +54,12 @@ angular.module('spoutCastApp')
     streetAddress[0] = location.address_components[0].short_name + ' ' + location.address_components[1].short_name;
     streetAddress[1] = location.address_components[2].short_name + ', ' + location.address_components[4].short_name + ' ' + location.address_components[6].short_name;
     $scope.newLocation.streetAddress = streetAddress;
-    // $scope.newLocation.formatted_address = Session.get('address');
     $scope.modal.show();
   };
 
   $scope.myAddress = function() {
     return Session.get('location');
   };
-
-  // $scope.newLocationAddress = function(latLng){
-  //   MapService.reverseGeo(function(loc){
-  //     $scope.newLocation.formatted_address = loc.formatted_address;
-  //     return loc.address;
-  //   });
-  // };
 
   $scope.getReview = function(location){
     if (Meteor.user()) {
@@ -110,7 +92,6 @@ angular.module('spoutCastApp')
           coordinates: [location.latLng.lng, location.latLng.lat]
         };
         Reviews.insert(review);
-        // ReviewService.setCurrentReview(review);
       }
     } else {
       $state.go('tabs.login');
@@ -118,23 +99,16 @@ angular.module('spoutCastApp')
   };
 
   $scope.save = function() {
-    // if ($scope.form.$valid) {
-      var latLng = $scope.newLocation.latLng;
-      // $scope.newLocation.latLng = {};
-      //temporary: parsefloat for manual geo entry while testing
-      // $scope.newLocation.latLng.lat = parseFloat(latLng.lat);
-      // $scope.newLocation.latLng.lng = parseFloat(latLng.lng);
-      //Geospacial index
-      $scope.newLocation.loc = { 
-        type: "Point",
-        coordinates: [latLng.lng, latLng.lat]
-      };
-      Locations.insert($scope.newLocation);
-      $scope.newLocation = {};
-      $scope.newLocation.latLng = $scope.latLng;
-      $ionicScrollDelegate.resize();
-      $scope.modal.hide();
-    // }
+    var latLng = $scope.newLocation.latLng;
+    $scope.newLocation.loc = { 
+      type: "Point",
+      coordinates: [latLng.lng, latLng.lat]
+    };
+    Locations.insert($scope.newLocation);
+    $scope.newLocation = {};
+    $scope.newLocation.latLng = $scope.latLng;
+    $ionicScrollDelegate.resize();
+    $scope.modal.hide();
   };
                   
   $scope.remove = function(location) {
