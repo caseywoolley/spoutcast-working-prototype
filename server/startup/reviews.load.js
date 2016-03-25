@@ -13,3 +13,9 @@ Meteor.startup(function() {
     });
   }
 });
+
+Meteor.methods({
+  removeUserReviews: function() {
+    Reviews.remove( {user_id: Meteor.userId()} );
+  }
+});

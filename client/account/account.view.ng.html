@@ -3,12 +3,20 @@
   	<div class="list list-inset">
 
 	  	<div class="item">
-	  		<img height="100px" ng-show="avatar" ng-src="{{avatar}}" />
+        <div class="user-block">
+          <img height="100px" ng-show="avatar" ng-src="{{avatar}}" />
+          <span class="user-info">
+            <h2>{{userName}}</h2>
+            <p>{{reviews.length}} review{{ addS(reviews) }}</p>
+            <p>{{drafts.length}} draft{{ addS(drafts) }}</p>
+          </span>
+        </div>
       </div>
 
       <div class="item" ng-if="!editMode">
-        <h1>{{userName}}</h1>
-        <a ng-click="toggleEditMode()">Change</a>
+        <!-- <h1>{{userName}}</h1> -->
+        <!-- <a ng-click="toggleEditMode()">Change</a> -->
+        <div class="button button-block button-calm delete-account" ng-click="toggleEditMode()">Change Username</div>
       </div>
 
       <div class="item" ng-if="editMode">
@@ -16,7 +24,11 @@
           <input auto-select class="username" type="text" placeholder="Username" ng-model="newName">
         </label>
         <button class="button button-block button-calm" ng-click="update(newName)">Save</button>
-        <a ng-click="toggleEditMode()">Cancel</a>
+        <button class="button button-block button-stable" ng-click="toggleEditMode()">Cancel</button>
+        <!-- <a ng-click="toggleEditMode()">Cancel</a> -->
+      </div>
+      <div class="item">
+        <div class="button button-block button-assertive delete-account" ng-click="confirmDeleteAccount()">Delete Account</div>
       </div>
     </div>
     <!-- <pre>{{getUser()}}</pre> -->

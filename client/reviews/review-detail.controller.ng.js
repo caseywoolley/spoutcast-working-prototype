@@ -180,10 +180,12 @@ angular.module('spoutCastApp')
   };
 
   $scope.remove = function(review) {
+    var AWSKeys = [];
     if (review.video) {
       if (review.active) {
-        $meteor.call('removeAWSMedia', review.user_id + '/' + $scope.vidFile);
-        $meteor.call('removeAWSMedia', review.user_id + '/' + $scope.thumbFile);
+        AWSKeys.push(review.user_id + '/' + review._id + '.mov');
+        AWSKeys.push(review.user_id + '/' + review._id + '.jpg');
+        $meteor.call('removeAWSMedia', AWSKeys);
       } else {
         $scope.deleteFile($scope.mediaFolder, $scope.vidFile);
         $scope.deleteFile($scope.mediaFolder, $scope.thumbFile);

@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope, $meteor, $ionicPopup, $cordovaFile, RoutingService, ReviewService) {
 
   $scope.editMode = false;
 	
@@ -10,6 +10,54 @@ angular.module('spoutCastApp')
 	}
 
   $scope.avatar = Avatar.getUrl(Meteor.user());
+
+  if (Meteor.isCordova) {
+    $scope.localPath = '/local-filesystem' + cordova.file.syncedDataDirectory.slice(7) + 'media/';
+  }
+
+  $scope.helpers({
+      reviews: function() {
+        return Reviews.find({
+          user_id: Meteor.userId(),
+          active: true
+        });
+      },
+      drafts: function() {
+        return Reviews.find({
+          user_id: Meteor.userId(),
+          active: { "$exists" : false }
+        });
+      }
+    });
+
+
+  $scope.subscribe('reviews', function() {
+    return [{}, $scope.getReactively('search')];
+  });
+
+
+  $scope.addS = function(items) {
+    if (items.length === 1) {
+      return '';
+    } 
+    return 's';
+  };
+
+  // A confirm dialog
+  $scope.confirmDeleteAccount = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'Delete Your Account?',
+     template: 'Are you sure you want to permenantly delete your account and all your reviews?  This can\'t be undone.'
+   });
+
+   confirmPopup.then(function(res) {
+     if(res) {
+       $scope.deleteAccount();
+     } else {
+       console.log('cancel');
+     }
+   });
+  };
 
   $scope.toggleEditMode = function() {
     $scope.editMode = !$scope.editMode;
@@ -27,7 +75,13 @@ angular.module('spoutCastApp')
   };
 
   $scope.deleteAccount = function() {
-    Users.remove({_id: Meteor.userId()});
+    var allReviews = $scope.reviews.concat($scope.drafts);
+    console.log('delete account');
+    ReviewService.removeGroup(allReviews);
+    //delete user
+    Meteor.users.remove({ _id: Meteor.userId() });
+    $meteor.logout(); 
+    RoutingService.goBack();
   };
 
   $scope.getUser = function(){

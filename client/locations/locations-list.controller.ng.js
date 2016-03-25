@@ -1,7 +1,7 @@
 'use strict'
 
 angular.module('spoutCastApp')
-.controller('LocationsListCtrl', function($scope, $state, $meteor, $ionicListDelegate, $ionicScrollDelegate, $ionicModal, MapService, ReviewService) {
+.controller('LocationsListCtrl', function($scope, $state, $meteor, $ionicListDelegate, $ionicScrollDelegate, $ionicModal, MapService) {
   $scope.newLocation = {};
 
   $scope.autorun(function() {

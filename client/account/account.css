@@ -5,3 +5,20 @@
 .username {
 	font-size: 2em !important;
 }
+
+.user-block {
+
+	display: inline-block;
+	width: 100%;
+}
+
+.user-block > img {
+	/*vertical-align: middle;*/
+}
+
+.user-info {
+
+	padding: 15px;
+
+	display: inline-block;
+}

@@ -22,7 +22,7 @@
 
   <ion-content class="reviews-list has-header has-subheader has-footer">
     <ion-list ng-if="$parent.reviews.length > 0">
-      <div collection-repeat="review in $parent.reviews" class="item-remove-animate row-no-padding">
+      <div ng-repeat="review in $parent.reviews" force-refresh-images class="item-remove-animate row-no-padding">
         <review-card
         ng-if="review.active" 
         review="review"
@@ -42,7 +42,7 @@
     </ion-list>
 
     <ion-list ng-if="$parent.reviews.length === 0">
-      <ion-item collection-repeat="review in $parent.emptyReviews" class="item-remove-animate row-no-padding">
+      <ion-item ng-repeat="review in $parent.emptyReviews" class="item-remove-animate row-no-padding">
         <review-card
         review="review"
         video=""
