@@ -31,14 +31,17 @@
         <label class="item item-input">
           <input type="text" ng-model="newLocation.name" placeholder="Location Name">
         </label>
-        <div class="item">
+        <!-- <div class="item">
           <h2>{{newLocation.streetAddress[0]}}</h2>
           <h2>{{newLocation.streetAddress[1]}}</h2>   
-        </div>
+        </div> -->
 
-        <!-- <label class="item item-input">
+        <label class="item item-input">
           <input type="text" ng-model="newLocation.streetAddress[0]" placeholder="Address">
-        </label> -->
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="newLocation.streetAddress[1]" placeholder="City, State Zip">
+        </label>
 
       <button class="button button-full button-calm" ng-click="save()">Add</button>
       {{newLocation}}

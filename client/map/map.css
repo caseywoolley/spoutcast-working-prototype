@@ -7,3 +7,12 @@
 .scroll {
   height: 100%;
 }
+
+.marker_labels {
+		padding: 5px;
+    color:#fff; 
+    background-color:#FF6655;
+    border-radius: 5px;
+    font-size:11px;
+    line-height: 12px;
+}

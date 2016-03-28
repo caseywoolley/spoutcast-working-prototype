@@ -22,8 +22,7 @@ angular.module('spoutCastApp')
             $geometry: {
               type: 'Point', 
               coordinates: [$scope.getReactively('latLng.lng'), $scope.getReactively('latLng.lat')],
-            },
-            $maxDistance: 1000 * 1609 // 1000 miles
+            }
           }
         },
         active: true

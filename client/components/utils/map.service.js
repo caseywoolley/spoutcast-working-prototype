@@ -3,7 +3,7 @@
 angular.module('spoutCastApp')
 .service('MapService', function($state) {
 
-  var geocoder = new google.maps.Geocoder();
+  var geocoder = new google.maps.Geocoder;
   var latLng = {lat: 0, lng: 0};
   var reviewRadius = 1609; //1 mile in meters
 
@@ -13,7 +13,7 @@ angular.module('spoutCastApp')
       latitude: latLng.lat,
       longitude: latLng.lng
     },
-    zoom: 10,
+    zoom: 14,
     circle: {
       radius: reviewRadius,
       center: {
@@ -22,9 +22,9 @@ angular.module('spoutCastApp')
       }
     },
     markerEvents: {
-      click: function(){ 
-        console.log('clicked');
-        $state.go('tabs.reviews-list');
+      click: function(location){ 
+        console.log(location);
+        $state.go('tabs.location-reviews', {id: location.model._id});
       }
     }
   };
@@ -33,13 +33,10 @@ angular.module('spoutCastApp')
     latLng = Geolocation.latLng() || latLng;
     Session.set('latLng', latLng);
     reverseGeo();
-
     map.center.latitude = latLng.lat;
     map.center.longitude = latLng.lng;
-
     map.circle.center.latitude = latLng.lat;
     map.circle.center.longitude = latLng.lng;
-
     return latLng;
   };
 
@@ -64,21 +61,22 @@ angular.module('spoutCastApp')
   var reverseGeo = function(callback) {
     geocoder.geocode( {'latLng': latLng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
+        console.log(results)
         var loc = results[0];
         var location = {
           latLng: {
             lat: loc.geometry.location.lat(),
             lng: loc.geometry.location.lng()
           },
-          address: loc.formatted_address,
+          formatted_address: loc.formatted_address,
           address_components: loc.address_components,
           place_id: loc.place_id
         };
         
         // Session.set('address', loc.formatted_address);
-        Session.set('location', location);
+        Session.set('location', loc);
         if (callback){
-          return callback(location);
+          return callback(loc);
         }         
       }
     });

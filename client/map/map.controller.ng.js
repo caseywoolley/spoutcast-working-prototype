@@ -13,16 +13,17 @@ angular.module('spoutCastApp')
     return [{}, $scope.getReactively('search')];
   });
 
-  $scope.autorun(function() {
-    MapService.updateLocation();
-    $scope.map = MapService.map;
-    _.each($scope.locations, function(location){
-      location.coords = {};
-      location.coords.latitude = location.latLng.lat;
-      location.coords.longitude = location.latLng.lng;
-    });
+  MapService.updateLocation();
+  $scope.map = MapService.map;
+  _.each($scope.locations, function(location){
+    location.options = {
+      labelClass:'marker_labels',
+      labelAnchor:'20 65',
+      labelContent: location.name
+    };
   });
 
-  console.log('locations',$scope.locations)
+
+  // console.log('locations',$scope.locations)
   // console.log($scope.currentLocation)
 });
