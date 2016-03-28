@@ -23,7 +23,6 @@ angular.module('spoutCastApp')
     },
     markerEvents: {
       click: function(location){ 
-        console.log(location);
         $state.go('tabs.location-reviews', {id: location.model._id});
       }
     }
@@ -61,7 +60,6 @@ angular.module('spoutCastApp')
   var reverseGeo = function(callback) {
     geocoder.geocode( {'latLng': latLng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
-        console.log(results)
         var loc = results[0];
         var location = {
           latLng: {
@@ -74,9 +72,9 @@ angular.module('spoutCastApp')
         };
         
         // Session.set('address', loc.formatted_address);
-        Session.set('location', loc);
+        Session.set('location', location);
         if (callback){
-          return callback(loc);
+          return callback(location);
         }         
       }
     });

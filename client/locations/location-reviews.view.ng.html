@@ -1,6 +1,6 @@
 <ion-view view-title="{{location.name || 'Location Reviews'}}">
   <ion-nav-back-button></ion-nav-back-button>
-  <div class="bar bar-subheader item-input-inset">
+  <!-- <div class="bar bar-subheader item-input-inset">
     <label class="item-input-wrapper">
       <i class="icon ion-ios-search placeholder-icon"></i>
       <input type="search" placeholder="Search">
@@ -8,9 +8,9 @@
     <button class="button button-clear">
       Cancel
     </button>
-  </div>
+  </div> -->
 
-  <ion-content class="reviews-list has-header has-subheader has-footer">
+  <ion-content class="reviews-list has-header has-footer">
     <ion-list>
       <div collection-repeat="review in $parent.reviews" class="item-remove-animate row-no-padding">
         <review-card

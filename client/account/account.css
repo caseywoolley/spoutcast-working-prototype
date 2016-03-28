@@ -6,6 +6,11 @@
 	font-size: 2em !important;
 }
 
+.avatar {
+	background-color: #DBDBDB;
+	display:inline;
+}
+
 .user-block {
 
 	display: inline-block;
