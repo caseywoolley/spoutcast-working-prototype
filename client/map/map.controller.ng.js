@@ -14,7 +14,9 @@ angular.module('spoutCastApp')
   });
 
   MapService.updateLocation();
+  $scope.zoom = 16
   $scope.map = MapService.map;
+  console.log(MapService.map, "MapSService")
   _.each($scope.locations, function(location){
     location.options = {
       labelClass:'marker_labels',
